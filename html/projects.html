@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel='stylesheet' href='overall.css'>
+  <script src='https://code.jquery.com/jquery-3.5.1.min.js'></script>
+  <script src='js/project_page.js'></script>
+  <script src='https://kit.fontawesome.com/127f7c8d0a.js' crossorigin='anonymous'></script>
+</head>
+
+<body>
+<nav>
+  <div id='nav-logo-section'>
+    <img src='Logo.png'>
+  </div>
+  <div id='nav-link-section' class='nav-section'>
+    <a class='nav-link', href='tasks.html'>Task List</a>
+    <a class='nav-link', id='active'>Project List</a>
+    <a class='nav-link', href='forum.html'>Forum</a>
+    <a class='nav-link', id='manager-navbar' href='manager.php'>Manager Dashboard</a>
+  </div>
+</nav>
+
+<main>
+  <article id="article">
+    <div class='kanban', id='kanban-project'>
+      <div class='kanban-title'><h1 id='title'><b>Your Projects.</b></h1></div>
+      <div id='kanban-project-list'></div>
+    </div>
+  </article>
+</main>
+
+<div class="overlay" id="project-overlay">
+
+  <div class="overlay-box", id="projectInfo-overlay-box">
+    <div class="overlay-box-content">
+      <div id="manager-overlay">
+        <div id="employees">
+          <h3 id="employee-tab-title"><b>Employees.</b></h3>
+          <div id="employee-tabs-outer">
+            <div id="employee-tabs-inner"></div>
+          </div>
+          <button id="employee-tab-addButton" onclick="addEmpOverlay()">Add+</button>
+        </div>
+        <div id="project-info">
+          <div id="project-info-tabs">
+            <button id="project-tab", class="project-tab", onclick="openTab('project')">Project Details</button>
+            <button id="emp-tab", class="project-tab", onclick="openTab('emp')">Employee Details</button>
+          </div>
+
+          <div id="tab-project", class="tab-content">
+            <h3><u><span id="overlay-title">Project Name</span></u></h3>
+            <h3>Team Leader: <span id="overlay-email">Email@email.com</span></h3>
+            <div class='project-progressBars'><div class='progressBar project' id="overlay-bar"></div></div>
+            <p>Number of Tasks: <span id="overlay-taskNo">number</span></p>
+            <p>Number of Employees: <span id="overlay-empNo">number</span></p>
+            <button id="edit-project-button" onclick="editProjectOverlay()"><i class="fa-solid fa-pen-to-square"></i></button>
+          </div>
+
+          <div id="tab-emp", class="tab-content">
+            <div id="manager-task-search">
+              <label id="manager-task-name-label", for="manager-task-name" style="margin: auto;">Select Task:</label>
+              <input type="text", id="manager-task-name", name="manager-task-name", onkeyup="filterTasks(this)"></input>
+            </div>
+            <div id="manager-tasks">
+              <div id="manager-task-list-outer">
+                <div id="manager-task-list"></div>
+              </div>
+              <button id="manager-new-task-button" onclick="newTaskOverlay()">New+</button>
+            </div>
+            <div id="manager-task-details-box">
+              <div id="details-content">This is content! This is meant to be veryveryveryveryveryveryveryveryvery long.</div>
+              <div id="details-assigned">1 - e@x</div>
+              <div id="details-creator">cr: 1 - e@x</div>
+              <div id="details-editor">ed: 1 - e@x</div>
+              <div id="details-created">sd: 00/00/00</div>
+              <div id="details-deadline">ed: 00/00/00</div>
+              <div id="details-hours">length: 5</div>
+              <div id="details-status">doing</div>
+              <div id="details-buttons">
+                <button id="details-edit" class="icon" onclick="editTaskOverlay()"><i class="fa-solid fa-pen-to-square"></i></button>
+                <button id="details-delete" class="icon" onclick="deleteTask()"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </div>
+            <div id="emp-bar-div", class='project-progressBars'><div class='progressBar allocation' id="emp-bar"></div></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <button type="button" onclick="removeOverlay()">Cancel</button>
+  </div>
+
+  <div class="overlay-box", id="addEmp-overlay-box">
+    <h2>Choose Employee(s)</h2>
+    <div id="add-emp-select-outer">
+      <div id="add-emp-select-inner"></div>
+    </div>
+    <button type="button" onclick="addEmpToProject()">Add</button>
+    <button type="button" onclick="returnOverlayAdd()">Back</button>
+  </div>
+
+  <div class="overlay-box", id="managerNewTask-overlay-box">
+    <div class="overlay-box-content">
+      <label for="manager-newTask-content">Task Description:</label>
+      <textarea type="text", id="manager-newTask-content", name="manager-newTask-content"></textarea>
+      <label for="manager-newTask-deadline">Deadline:</label>
+      <input type="date", id="manager-newTask-deadline", name="manager-newTask-deadline"></input>
+      <label for="manager-newTask-hours" style="padding-bottom:1rem">Hours Needed: <span id="taskNewHours"></span></label>
+      <input type="range", id="manager-newTask-hours", name="manager-newTask-hours", min="1", max="10", value="5", class="slider", oninput="updateTaskSlider(this.value)", onchange="updateTaskSlider(this.value)"></input>
+      <label for="manager-newTask-assign">Select Employee: (leave blank for none)</label>
+      <select id = "manager-newTask-assign", name="manager-newTask-assign"></select>
+    </div>
+    <button type="button" onclick="addTaskToProject()">Add</button>
+    <button type="button" onclick="returnOverlayNew()">Back</button>
+  </div>
+
+  <div class="overlay-box", id="managerEditTask-overlay-box">
+    <div class="overlay-box-content">
+      <label for="manager-editTask-content">Task Description:</label>
+      <textarea type="text", id="manager-editTask-content", name="manager-editTask-content"></textarea>
+      <label for="manager-editTask-deadline">Deadline:</label>
+      <input type="date", id="manager-editTask-deadline", name="manager-editTask-deadline"></input>
+      <label for="manager-editTask-hours" style="padding-bottom:1rem">Hours Needed: <span id="taskEditHours"></span></label>
+      <input type="range", id="manager-editTask-hours", name="manager-editTask-hours", min="1", max="10", value="5", class="slider", oninput="updateTaskSlider(this.value)", onchange="updateTaskSlider(this.value)"></input>
+      <label for="manager-editTask-assign">Select Employee: (leave blank for none)</label>
+      <select id = "manager-editTask-assign", name="manager-editTask-assign"></select>
+    </div>
+    <button type="button" onclick="editTaskOnProject()">Edit</button>
+    <button type="button" onclick="returnOverlayEdit()">Back</button>
+  </div>
+
+  <div class="overlay-box", id="managerEditProject-overlay-box">
+    <div class="overlay-box-content">
+      <label for="manager-editProject-name">Name:</label>
+      <input type="text", id="manager-editProject-name", name="manager-editProject-name"></input>
+      <label for="manager-editProject-assign">Select Team Leader: (leave blank for none)</label>
+      <select id = "manager-editProject-assign", name="manager-editProject-assign"></select>
+    </div>
+    <button type="button" onclick="editProjectDetails()">Edit</button>
+    <button type="button" onclick="returnOverlayEditProject()">Back</button>
+  </div>
+
+  <div class="overlay-box", id="newProject-overlay-box">
+    <div class="overlay-box-content">
+      <label for="manager-newProject-name">Name:</label>
+      <input type="text", id="manager-newProject-name", name="manager-newProject-name"></input>
+      <label for="manager-newProject-assign">Select Team Leader: (leave blank for none)</label>
+      <select id = "manager-newProject-assign", name="manager-newProject-assign"></select>
+    </div>
+    <button type="button" onclick="createNewProject()">Create</button>
+    <button type="button" onclick="removeOverlay()">Back</button>
+  </div>
+</div>
+
+</body>
+
+</html>

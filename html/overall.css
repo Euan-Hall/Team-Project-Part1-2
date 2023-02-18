@@ -1,0 +1,1292 @@
+*{margin:0;padding:0}
+
+:root {
+    --background-colour: rgb(240, 240, 240);
+    --background-colour-shadow: rgb(168, 168, 168);
+    --delegated-colour: rgb(162,226,255);
+    --delegated-colour-shadow: rgb(77, 178, 224);
+    --main-colour: rgb(240,138,130);
+    --main-colour-hover: rgb(204, 102, 94);
+    --button-colour: rgb(39, 55, 90);
+    --button-hover: rgb(29, 41, 66);
+    --kanban-item-checkbox-color: #F08A82;
+}
+
+h1, h2, h3, a, p, span, button, label, textarea, div {
+    font-family: "Rubik", sans-serif;
+    font-weight: 400;
+    color: black;
+}
+
+a {
+    color: white;
+    text-decoration:none;
+}
+
+input {
+    height: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 10px;
+}
+
+select {
+    height: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border: none;
+    border-radius: 10px;
+}
+
+textarea {
+    height: 3rem;
+    border-radius: 10px;
+    padding: 1rem 1rem;
+    resize: none;
+}
+
+.account-page-body{
+    background-color:#f08a82;
+    overflow: hidden;
+    display: flex;
+    height: 100vh;
+    margin: 0px;
+}
+
+.account_details {
+    align-self: center;
+    justify-self: center;
+    margin: auto;
+}
+
+.account-page-form{
+    height:auto;
+    padding:30px 40px;
+    background-color:#ffffff;
+    border-radius:20px;
+    box-shadow:0 0 10px 0 #000000;
+}
+
+ul.list{
+    list-style-type: none;
+    text-align: center;
+    width: 280px;
+}
+
+ul.list li{
+    margin-bottom:15px;
+}
+
+ul.list li input{
+    width: 280px;
+    text-align: center;
+    padding: 10px 0px;
+    border: none;
+    background-color: #b8b2b2;
+    border-radius: 8px;
+}
+
+ul.list li input[type="submit"]{
+    background-color:#f08a82;
+    color:#ffffff;
+}
+
+button {
+    border: none;
+    border-bottom: 3px solid var(--button-hover);
+    border-right: 3px solid var(--button-hover);
+    background-color: var(--button-colour);
+    color: white;
+    border-radius: 10px;
+    padding: 1rem 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+}
+
+button > i {
+    align-self: center;
+    justify-self: center;
+}
+
+button:hover {
+    background-color: var(--button-hover);
+    color: var(--background-colour-shadow);
+}
+
+.icon {
+    border: none;
+    height: 1rem;
+    width: 1rem;
+}
+
+.account-button {
+    width: 100%;
+    padding: 0.65rem 0rem;
+}
+
+body {
+    background-color: var(--background-colour);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0px;
+    overflow: hidden;
+}
+
+nav {
+    display: flex;
+    width: 100%;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom: 1px solid var(--main-colour);
+    background-color: var(--main-colour);
+}
+
+nav > .nav-section {
+    display: flex;
+    text-align: center;
+}
+
+#nav-logo-section {
+    padding: 1rem 1rem;
+    width: 7rem;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+#nav-logo-section > img {
+    width: 100%;
+}
+
+#nav-link-section {
+    flex-grow: 1;
+}
+
+.nav-link {
+    flex-basis: calc(100%/3);
+    margin-left: auto;
+    margin-right: auto;
+    padding: 3rem 2rem;
+}
+
+.nav-link:hover {
+    background-color: var(--main-colour-hover);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+main {
+    box-sizing: border-box;
+    padding: 1rem 1rem;
+    flex-grow: 1;
+    width: 100%;
+    overflow: hidden;
+}
+
+article {
+    display: flex;
+    gap: 1rem;
+    height: 100%;
+}
+
+.sidebar {
+    width: 5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.sidebar-counter {
+   background-color: white;
+   width: 5rem;
+   height: 5rem;
+   border-radius: 10px;
+   display: flex;
+   flex-direction: column;
+}
+
+.sidebar-counter-number {
+    margin: auto;
+    height: 10%;
+}
+
+.sidebar-counter-number > p {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.sidebar-counter-label {
+    margin: auto;
+    flex-basis: 10%;
+}
+
+.sidebar > .delegated {
+    border-bottom: none;
+}
+
+.kanban {
+    border: 1px solid white;
+    background-color: white;
+    flex-basis: calc(100%/3);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#kanban-forum {
+  flex-basis: calc(2 * 100%/3);
+}
+
+.kanban-list {
+    height: 100%;
+    display: grid;
+    align-content: start;
+    gap: 1rem;
+    overflow:hidden;
+    overflow-y: auto;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+}
+
+.kanban-title {
+    padding-left: 1.5rem;
+    padding-top: 1rem;
+    display: flex;
+}
+
+.kanban-title-heading {
+    width: 70%;
+}
+
+.kanban-title-count {
+    background-color: var(--background-colour);
+    width: rem;
+    border-radius: 10px;
+}
+
+.kanban-title-count > h1 {
+    text-align: center;
+}
+
+.kanban-add {
+    height: 10%;
+    display: flex;
+    padding-bottom: 1rem;
+}
+
+.kanban-button {
+    width: 90%;
+    margin: auto;
+}
+
+.kanban-title > h1 {
+    color: black;
+    font-size: 30px;
+    padding-bottom: 1rem;
+}
+
+.kanban-item {
+    background-color: var(--background-colour);
+    border-radius: 10px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 8rem;
+    display: flex;
+    overflow-x: hidden;
+}
+
+.personal {
+    background-color: var(--background-colour);
+    border-bottom: 3px solid var(--background-colour-shadow);
+}
+
+.delegated {
+    background-color: var(--delegated-colour);
+    border-bottom: 3px solid var(--delegated-colour-shadow);
+}
+
+.kanban-item-text {
+	padding: 1rem 1rem;
+    overflow-x: hidden;
+	overflow-wrap: break-word;
+    overflow-y: auto;
+}
+
+.kanban-item-text > p {
+	color: black;
+    margin: auto;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.kanban-item-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    justify-content: center;
+    height: 100%;
+    margin-right: 0.5rem;
+    margin-left: auto;
+
+}
+
+.kanban-item-button {
+    height: 0.5rem;
+    width: 0.5rem;
+    align-self:center;
+    display: flex;
+    justify-content: center;
+}
+
+.kanban-date-posted {
+    align-self: center
+}
+
+.kanban-date-posted {
+  padding-right: 1rem;
+}
+
+.overlay {
+  position: fixed;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 2;
+  cursor: pointer;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+.kanban-item-checkbox {
+  font-family: system-ui, sans-serif;
+  font-size: 2rem;
+  font-weight: bold;
+  line-height: 1.1;
+  display: flex;
+  grid-template-columns: 1em auto;
+  gap: 0.5em;
+  margin-top: 0.5em;
+  margin-left: 1.5rem;
+}
+
+.kanban-item-checkbox + .kanban-item-checkbox {
+  margin-top: 1em;
+}
+
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+
+  font: inherit;
+  color: currentColor;
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.15em solid currentColor;
+  border-radius: 0.15em;
+  transform: translateY(-0.075em);
+
+  display: flex;
+  place-content: center;
+
+  margin-top: 0.2em;
+}
+
+input[type="checkbox"]::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  transform: scale(0);
+  transform-origin: bottom left;
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--kanban-item-checkbox-color);
+  /* Windows High Contrast Mode */
+  background-color: CanvasText;
+  margin-top: 0.1em;
+}
+
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+
+input[type="checkbox"]:focus {
+  outline: max(2px, 0.15em) solid currentColor;
+  outline-offset: max(2px, 0.15em);
+}
+
+.overlay-box {
+    border-radius: 10px;
+    background-color: var(--background-colour);
+    height: fit-content;
+    width: 50%;
+    margin: auto;
+    padding: 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.overlay-box-content {
+    height: fit-content;
+    display: inline-flex;
+    flex-direction: column;
+    flex-basis: 70%;
+}
+
+.overlay-box-content > label {
+    color: black;
+    vertical-align: top;
+    background-color: var(--background-colour);
+    padding-left: 0rem;
+    padding-top: 1rem;
+    padding-bottom: calc(1rem/3);
+}
+
+#taskpage-overlay {
+    display: flex;
+}
+
+#invite-overlayBox-content {
+    height: 4rem;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+#invite-overlayBox-code {
+    border-radius: 10px;
+    background-color: white;
+    flex-grow: 1;
+    display: flex;
+}
+
+#invite-overlayBox-generateButton {
+    width: 4rem;
+}
+
+#invite-overlayBox-generateButton > button {
+    color: white;
+    height: 100%;
+    width: 100%;
+}
+
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 0.3rem;
+    background: var(--background-colour-shadow);
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    border-radius: 10px;
+}
+
+#taskHours{
+    float: right;
+}
+
+#kanban-project {
+    flex-basis: 100%;
+}
+
+#kanban-project-list {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-content: start;
+    gap: 1rem;
+    overflow:hidden;
+    overflow-y: auto;
+    padding-bottom: 1rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.kanban-item-project {
+    width: 100%;
+    height: 15rem;
+    display: grid;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: var(--background-colour);
+    border-bottom: 2px solid var(--background-colour-shadow);
+    grid-template-columns: calc(100%/5);
+    grid-template-rows: calc(100%/5);
+
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.kanban-item-project > * {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.kanban-item-project ul {
+    padding-left: 1rem;
+}
+
+.project-title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+
+    height: 4rem;
+    grid-row: 1;
+    grid-column-start: 1;
+    grid-column-end: 4;
+}
+
+.project-title * {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.project-boxes {
+    height: 4rem;
+    grid-row: 1;
+    grid-column-start: 4;
+    grid-column-end: 5;
+
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    gap: 0.5rem
+}
+
+.project-training {
+    background-color: white;
+    border-radius: 10px;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+    height: 7rem;
+    grid-column-start: 1;
+    grid-column-end: 5;
+    grid-row-start: 2;
+    grid-row-end: 4;
+}
+
+.project-training-content {
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.project-progressBars {
+    height: 2rem;
+    grid-column-start: 1;
+    grid-column-end: 5;
+    grid-row-start: 4;
+    grid-row-end: 5;
+}
+
+.resource-button {
+    background-color: var(--delegated-colour);
+}
+
+.resource-button:hover {
+    background-color: var(--delegated-colour-shadow);
+}
+
+.progressBar {
+    position: relative;
+    width: 100%;
+    height: 2rem;
+    background-color: var(--button-colour);
+    border-radius: 10px;
+    color: white;
+}
+
+.progressBar::before {
+    content: attr(data-label);
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: calc(1rem/3);
+    right: calc(1rem/3);
+    top: calc(1rem/3);
+    bottom: calc(1rem/3);
+    width: calc(var(--width, 0) * 1%);
+    min-width: 1rem;
+    max-width: calc(100% - 0.6rem);
+    border-radius: 5px;
+}
+
+.project::before {
+    background-color: rgb(162,226,255)
+}
+
+.allocation::before {
+    background-color:darkred;
+}
+
+.post-overlay {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 2;
+  cursor: pointer;
+}
+
+
+#post-overlay-box {
+    border-radius: 10px;
+    background-color: var(--background-colour);
+    height: 80%;
+    width: 80%;
+    margin: auto;
+    padding: 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#post-overlay-box > button {
+    border-radius: 10px;
+}
+
+#post-overlay-box-loginline {
+    height: 14%;
+    display: flex;
+    flex-direction: column;
+}
+
+#post-overlay-box-loginline > label, #post-overlay-box-paragraph > label  {
+    color: black;
+    vertical-align: top;
+    background-color: var(--background-colour);
+    padding-left: 0rem;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+}
+
+#post-overlay-box-loginline > textarea, #post-overlay-box-paragraph > textarea {
+    border: none;
+    height: 100%;
+    flex-grow: 1;
+    border-radius: 10px;
+    padding: 1rem 1rem;
+}
+
+#post-overlay-box-paragraph {
+	height: 60%;
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-overlay-box {
+    border-radius: 10px;
+    background-color: var(--background-colour);
+    height: 60%;
+    width: 70%;
+    margin: auto;
+    padding: 1rem 1rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.dashboard-overlay-input > label {
+	color: black;
+    vertical-align: top;
+    background-color: var(--background-colour);
+    padding-left: 0rem;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+}
+
+.dashboard-overlay-input > textarea {
+	border: none;
+    height: 50%;
+    flex-grow: 1;
+    border-radius: 10px;
+    padding: 1rem 1rem;
+}
+
+.side-dashboard {
+	display: flex;
+	flex-direction: column;
+}
+
+#dashboard-add {
+	margin-bottom: 1em;
+}
+
+#manager-navbar {
+	display: none;
+}
+
+.account-page-issue-area {
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    display: none;
+}
+
+#account-page-password-area p:first-child {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px
+}
+
+#account-page-password-area p:last-child {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px
+}
+
+#account-page-passwordmatch-area p {
+    border-radius: 10px;
+    background-color: #f2fc94
+}
+
+#account-page-email-area p {
+    border-radius: 10px;
+}
+
+#account-page-code-area p {
+    border-radius: 10px;
+}
+
+.account-page-verification{
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    text-align: center;
+    background-color: #fc9494;
+}
+
+#tabs {
+    padding: 0rem 1rem;
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: row;
+}
+
+#tabs-buttons {
+    display: flex;
+    flex-direction: row-reverse;
+    width: 100%;
+}
+
+#tabs-buttons-spacing {
+    width: calc(100%/3);
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.tabs-button {
+    flex-basis: calc(100%/3);
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+#tabs-fill {
+    align-self: flex-start;
+    width: 7rem;
+}
+
+#tabs-button-personal {
+    background-color: white;
+    color: #000000;
+    border-bottom: 3px solid var(--background-colour-shadow);
+    border-right: 3px solid var(--background-colour-shadow);
+}
+
+#tabs-button-personal:hover {
+    background-color: var(--background-colour-shadow)
+}
+
+#tabs-button-delegated {
+    background-color: var(--delegated-colour);
+    color: #000000;
+    border-bottom: 3px solid var(--delegated-colour-shadow);
+    border-right: 3px solid var(--delegated-colour-shadow);
+}
+
+#tabs-button-delegated:hover {
+    background-color: var(--delegated-colour-shadow);
+}
+
+#manager-overlay {
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+#employees {
+    height: auto;
+    flex-basis: calc(100%/3);
+    background-color: white;
+    border-radius: 10px;
+
+    padding: 1rem 1rem;
+    display: grid;
+    grid-template-rows: auto 1fr 2rem;
+}
+
+#employee-tab-title {
+    grid-row: 1;
+    align-self: center;
+}
+
+#employee-tabs-outer {
+    grid-row: 2;
+    padding-top: calc(1rem/3);
+    padding-bottom: calc(1rem/3);
+
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+#employee-tabs-inner {
+    display: flex;
+    flex-direction: column;
+    gap: calc(1rem/3);
+
+    overflow: hidden;
+}
+
+#employee-tabs-inner p {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.emp-tab-button {
+    width: 100%;
+    height: 3rem;
+
+    background-color: var(--background-colour);
+    color: black;
+    border: none;
+    padding: calc(1rem/3) calc(1rem/3);
+    border-radius: 10px;
+
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr auto;
+    gap: calc(1rem/3);
+}
+
+.emp-tab-button:hover {
+    background-color: var(--background-colour-shadow);
+    color: black;
+}
+
+.emp-tab-button > * {
+    margin: auto;
+}
+
+.emp-tab-button > p {
+    grid-row: 1;
+    grid-column: 1;
+    width: 100%;
+}
+
+.emp-tab-button-delete {
+    grid-row: 1;
+    grid-column: 2;
+}
+
+#employee-tab-addButton {
+    grid-row: 3;
+}
+
+#project-info {
+    height: fit-content;
+    flex-basis: calc(200%/3);
+
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr;
+}
+
+#project-info-tabs {
+    height: auto;
+
+    grid-row: 1;
+    grid-column: 1;
+    
+    display: flex;
+    flex-direction: row;
+}
+
+.project-tab {
+    background-color: white;
+    color:black;
+    border: none;
+
+    border-radius: 0px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
+    padding-top: calc(1rem/3);
+    padding-bottom: calc(1rem/3);
+}
+
+.project-tab:hover {
+    background-color: var(--background-colour-shadow);
+    color: black;
+}
+
+.tab-content {
+    background-color: white;
+    border-radius: 10px;
+    border-top-left-radius: 0px;
+
+    grid-row: 2;
+    grid-column-start: 1;
+    grid-column-end: 3;
+
+    padding: 1rem 1rem;
+}
+
+#tab-emp {
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 10rem 1fr;
+}
+
+.emp-active {
+    background-color: var(--background-colour-shadow);
+}
+
+#manager-task-search {
+    margin-bottom: calc(1rem/3);
+    grid-row: 1;
+    grid-column-start: 1;
+    grid-column-end: 3;
+
+    display: flex;
+    flex-direction: row;
+}
+
+#manager-task-name-label {
+    flex-basis: auto;
+
+}
+
+#manager-task-name {
+    flex-grow: 1;
+    margin-left: calc(1rem/3);
+}
+
+#manager-tasks {
+    height: auto;
+    width: 9rem;
+    grid-row: 2;
+    grid-column: 1;
+
+    background-color: var(--background-colour);
+    padding: 1rem 1rem;
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    gap:calc(1rem/3)
+}
+
+#manager-task-list-outer {
+    overflow: hidden;
+    overflow-y: auto;
+
+    height: 13rem;
+    width: 100%;
+}
+
+#manager-task-details-box {
+    padding: 1rem 1rem;
+    background-color: var(--background-colour);
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    grid-row: 2;
+    grid-column: 2;
+
+    display: grid;
+    grid-template-rows: 1fr 2rem 2rem 2rem 3rem;
+    grid-template-columns: 1fr 1fr;
+    gap: calc(1rem/3);
+}
+
+#manager-task-details-box > div {
+    padding: calc(1rem/3) calc(1rem/3);
+    border-radius: 10px;
+    opacity: 0;
+}
+
+#emp-bar-div {
+    grid-row: 3;
+    grid-column-start: 1;
+    grid-column-end: 3;
+
+    padding-top: calc(1rem/3);
+}
+
+#details-content {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row: 1;
+    width: 100%;
+
+    overflow: hidden;
+    overflow-wrap: break-word;
+    background-color: white;
+}
+
+#details-assigned {
+    grid-row: 2;
+    grid-column: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background-color: white;
+}
+
+#details-status {
+    grid-row: 2;
+    grid-column: 2;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background-color: white;
+}
+
+#details-created {
+    grid-row: 3;
+    grid-column: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background-color: white;
+}
+
+#details-deadline {
+    grid-row: 3;
+    grid-column: 2;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background-color: white;
+}
+
+#details-creator {
+    grid-row: 4;
+    grid-column: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background-color: white;
+}
+
+#details-editor {
+    grid-row: 4;
+    grid-column: 2;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background-color: white;
+}
+
+#details-hours {
+    grid-column: 1;
+    grid-row: 5;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background-color: white;
+}
+
+#details-buttons {
+    height: 100%;
+    grid-column: 2;
+    grid-row: 5;
+
+    padding-top: 0;
+    padding-bottom: 0;
+
+    display: flex;
+    flex-direction: row;
+    gap: calc(1rem/3);
+
+    background-color: var(--background-colour);
+}
+
+#details-buttons > .icon {
+    flex-basis: 50%;
+    height: 100%;
+}
+
+#manager-task-list {
+    display: flex;
+    flex-direction: column;
+    gap: calc(1rem/3);
+}
+
+#manager-new-task-button {
+    height: 2rem;
+}
+
+.manager-task-list-item {
+    border: none;
+    color: black;
+    background-color: var(--delegated-colour);
+    height: 3rem;
+}
+
+.manager-task-list-item:hover {
+    background-color: var(--delegated-colour-shadow);
+    color: #000000;
+}
+
+.manager-task-list-item * {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.invisible {
+    display: none;
+}
+
+#addEmp-overlay-box {
+    width: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+#add-emp-select-outer {
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+
+    height: 21rem;
+    background-color: white;
+    border-radius: 10px;
+    padding: 1rem 1rem;
+}
+
+#add-emp-select-inner {
+    display: flex;
+    flex-direction: column;
+    gap: calc(1rem);
+    overflow: hidden;
+}
+
+.empAdd-tab-button {
+    width: 100%;
+    height: 3rem;
+
+    background-color: var(--background-colour);
+    color: black;
+    border: none;
+    padding: calc(1rem/3) calc(1rem/3);
+    border-radius: 10px;
+
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr auto;
+    gap: calc(1rem/3);
+}
+
+.empAdd-tab-button:hover {
+    background-color: var(--background-colour-shadow);
+    color: black;
+}
+
+.empAdd-tab-button > p {
+    grid-row: 1;
+    grid-column: 1;
+    width: 100%;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.empAdd-active {
+    background-color: var(--background-colour-shadow);
+}
+
+.leader {
+    background-color: var(--delegated-colour);
+}
+
+.leader:hover {
+    background-color: var(--delegated-colour-shadow);
+}
+
+#projectInfo-overlay-box {
+    width: 60%;
+}
+
+.kanban-item .filter-input {
+    border-radius: 10px;
+}
+
+#displayAll {
+    display:block;
+    flex-basis: 50%;
+}
+
+#displayAll2 {
+    color: #A6E2FD;
+    flex-basis: 50%;
+}
+
+#displayAll2:hover {
+    color: black;
+}
+
+#displayAll3 {
+    color: #F0F0F0;
+}
+
+#displayAll3:hover {
+    color: black;
+}
+
+#tab-project {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#edit-project-button {
+    height: 2rem;
+}
+
+#new-project-button {
+    height: 100%;
+    width: 100%;
+}

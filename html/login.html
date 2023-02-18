@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>
+  <html lang="en">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Make-It-All Login</title>
+  <link rel="stylesheet" href="overall.css">
+</head>
+<body>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src = "js/login.js"></script>
+
+<body class="account-page-body" onload="clear_login()">
+  <form action="tasks.html" onsubmit="return validateLogin()" method="POST" class="account_details">
+      <div class="account-page-form">
+          <ul class="list">
+              <li><h1><b>Welcome to <br> Make-It-All Ltd!</b></h1></li>
+              <li><p>Enter your logins details below...</p></li>
+              <li><input id ="email" type="email" placeholder="Enter Email" name="email" required></li>
+              <li><input id="password" type="password" placeholder="Enter Password" name="password" required></li>
+              <li><button type="submit" class="account-button">Login</button></li>
+          </ul>
+      </div>
+  </form>
+</body>
+
+</html> 
+
+<!-- 05/11/2022 ernie : password : p email : test@email.com-->

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="overall.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="js/task_page.js"></script>
+  <script src="https://kit.fontawesome.com/127f7c8d0a.js" crossorigin="anonymous"></script>
+</head>
+
+<body onload="updateCounters()">
+<nav>
+  <div id="nav-logo-section">
+    <img src="Logo.png">
+  </div>
+  <div id="nav-link-section" class="nav-section">
+    <a class="nav-link", id="active">Task List</a>
+    <a class="nav-link", href="projects.html">Project List</a>
+    <a class="nav-link", href="forum.html">Forum</a>
+    <a class="nav-link", id="manager-navbar" href="manager.php">Manager Dashboard</a>
+  </div>
+</nav>
+
+<div id="tabs">
+  <div id="tabs-fill"></div>
+  <div id="tabs-buttons">
+    <div id="tabs-buttons-spacing">
+      <button class="tabs-button", id="tabs-button-personal"><b>Personal</b></button>
+      <button class="tabs-button", id="tabs-button-delegated"><b>Delegated</b></button>
+      <button class="tabs-button", id="tabs-button-invite", onclick="inviteOverlay()"><b>Invite</b></button>
+    </div>
+  </div>
+</div>
+  
+<main>
+  <article>
+    <div class="sidebar">
+      <div class="sidebar-counter">
+        <div class="sidebar-counter-number", id="sidebar-todo-counter-personal"><p></p></div>
+        <div class="sidebar-counter-label"><p>To Do</p></div>
+      </div>
+      <div class="sidebar-counter">
+        <div class="sidebar-counter-number", id="sidebar-doing-counter-personal"><p></p></div>
+        <div class="sidebar-counter-label"><p>Doing</p></div>
+      </div>
+      <div class="sidebar-counter">
+        <div class="sidebar-counter-number", id="sidebar-done-counter-personal"><p></p></div>
+        <div class="sidebar-counter-label"><p>Done</p></div>
+      </div>
+      <div class="sidebar-counter">
+        <div class="sidebar-counter-number", id="sidebar-total-counter-personal"><p></p></div>
+        <div class="sidebar-counter-label"><p>Total</p></div>
+      </div>
+      <div class="sidebar-counter delegated">
+        <div class="sidebar-counter-number", id="sidebar-todo-counter-delegated"><p></p></div>
+        <div class="sidebar-counter-label"><p>To Do</p></div>
+      </div>
+      <div class="sidebar-counter delegated">
+        <div class="sidebar-counter-number", id="sidebar-doing-counter-delegated"><p></p></div>
+        <div class="sidebar-counter-label"><p>Doing</p></div>
+      </div>
+      <div class="sidebar-counter delegated">
+        <div class="sidebar-counter-number", id="sidebar-done-counter-delegated"><p></p></div>
+        <div class="sidebar-counter-label"><p>Done</p></div>
+      </div>
+      <div class="sidebar-counter delegated">
+        <div class="sidebar-counter-number", id="sidebar-total-counter-delegated"><p></p></div>
+        <div class="sidebar-counter-label"><p>Total</p></div>
+      </div>
+    </div>
+
+    <div class="kanban", id="kanban-todo">
+      <div class="kanban-title"><h1><b>To Do</b></h1></div>
+      <div class="kanban-list", id="kanban-todolist", ondrop="drop(event)", ondragover="allowDrop(event)"></div>
+      <div class="kanban-add"><button class="kanban-button", type="button", onclick="taskOverlay()">Add+</button></div>
+    </div>
+
+    <div class="kanban", id="kanban-doing">
+      <div class="kanban-title"><h1><b>Doing</b></h1></div>
+      <div class="kanban-list", id="kanban-doinglist", ondrop="drop(event)", ondragover="allowDrop(event)"></div>
+    </div>
+
+    <div class="kanban", id="kanban-done">
+      <div class="kanban-title"><h1><b>Done</b></h1></div>
+      <div class="kanban-list", id="kanban-donelist", ondrop="drop(event)", ondragover="allowDrop(event)"></div>
+    </div>
+  </article>
+</main>
+
+<div class="overlay" id="taskpage-overlay">
+  <div class="overlay-box", id="createTask-overlayBox">
+    <div class="overlay-box-content", id="createTask-overlayBox-loginline">
+      <label for="createTask-input">Task Description:</label>
+      <textarea type="text", id="createTask-input", name="createTask-input"></textarea>
+      <label for="createTask-deadline">Deadline:</label>
+      <input type="date", id="createTask-deadline", name="createTask-deadline"></input>
+      <label for="createTask-hours" style="padding-bottom:1rem">Hours Needed: <span id="taskHours"></span></label>
+      <input type="range", id="createTask-hours", name="createTask-hours", min="1", max="10", value="5", class="slider", oninput="updateTaskSlider(this.value)", onchange="updateTaskSlider(this.value)"></input>
+    </div>
+    <button type="button" onclick="addTask()">Add Task</button>
+    <button type="button" onclick="removeOverlay()">Cancel</button>
+  </div>
+  <div class="overlay-box", id="invite-overlayBox">
+    <div class="overlay-box-content">
+      <label for="invite-overlayBox-content">Your Invite Code:</label>
+      <div id="invite-overlayBox-content">
+        <div id="invite-overlayBox-code", name="invite-overlayBox-content"><h1 id="code">— — — — — —</h1></div>
+        <div id="invite-overlayBox-generateButton"><button class="icon", onclick="generateCode()"><i class="fa-solid fa-retweet fa-2xl"></i></button></div>
+      </div>
+    </div>
+    <button type="button" onclick="removeOverlay()">Cancel</button>
+  </div>
+</div>
+</body>
+
+</html>

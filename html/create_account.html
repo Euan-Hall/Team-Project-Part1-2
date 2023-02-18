@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<head>
+    <html lang="en">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, intital-scale=1">
+        <title>Make-It-All Create Account</title>
+        <link rel="stylesheet" href="overall.css">
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="//cdn.jsdelivr.net/jquery.color-animation/1/mainfile"></script>
+        <script src = "js/account_creation.js"></script>
+</head>
+
+<body class="account-page-body">
+    <form action="login.html" method="POST" class="account_details" onsubmit="return verify_details()">
+        <div class="account-page-form">
+            <ul class="list">
+                <li><h1><b>Welcome to <br> Make-It-All Ltd!</b></h1></li>
+                <li><p>Please fill out the following form to create your account...</p></li>
+                <li><input type="text" id="code" placeholder="Invite Code" onkeyup="$('#account-page-code-area').slideUp()"></li>
+                <li>
+                    <div id="account-page-code-area" class="account-page-issue-area">
+                        <p id="code-verification", class="account-page-verification"><b>This code is not valid.</b></p>
+                    </div>
+                </li>
+		<li><input type="text" id="name" placeholder="Name"></input></li>
+                <li><input type="text" id="email" placeholder="Email Address" onkeyup="$('#account-page-email-area').slideUp()"></li>
+                <li>
+                    <div id="account-page-email-area" class="account-page-issue-area">
+                    <p id="email-verification", class="account-page-verification"><span id="email-text"></span></p>
+                    </div>
+                </li>
+                <li>
+                    <input type="password" id="password" placeholder="Password" onkeyup="passwordCheck()">
+                </li>
+                <li>
+                    <div id="account-page-password-area" class="account-page-issue-area">
+                    <p id="lower-letter", class="account-page-verification">A <b>lowercase</b> letter.</p>
+                    <p id="upper-letter", class="account-page-verification">An <b>uppercase</b> letter.</p>
+                    <p id="number", class="account-page-verification">A <b>number</b>.</p>
+                    <p id="length", class="account-page-verification"><b>8 or more</b> letters.</p>
+                    </div>
+                </li>
+                <li><input type="password" id="confirm_password" placeholder="Confirm Password" onkeyup="password_match()"></li>
+                <li>
+                    <div id="account-page-passwordmatch-area" class="account-page-issue-area">
+                    <p id="match", class="account-page-verification"><span id="match-text"></span></p>
+                    </div>
+                </li>
+            </ul>
+            <button type="submit" value="SUBMIT" class="account-button">Create</button>
+        </div>
+    </form>
+</body>
+</html>

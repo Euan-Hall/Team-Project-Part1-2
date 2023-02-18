@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="overall.css">
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script src="js/wiki.js"></script>
+	<script src="https://kit.fontawesome.com/127f7c8d0a.js" crossorigin="anonymous"></script>
+	<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+</head>
+<body>
+<nav>
+<div id="nav-logo-section">
+<img src="Logo.png">
+</div>
+<div id="nav-link-section" class="nav-section">
+	<a class="nav-link", href="tasks.html">Task List</a>
+	<a class="nav-link", href="projects.html">Project List</a>
+	<a class="nav-link", id="active">Forum</a>
+	<a class="nav-link", id="manager-navbar" href="manager.php">Manager Dashboard</a>
+</div>
+</nav>
+<main>
+<article>
+		<div class="kanban" id="kanban-sidebar">
+			<div class="kanban-title"><h1><b>Filter Articles</b></h1></div>
+			<div class="kanban-list">
+				<form action="php/forum_filter.php">
+					<div class="kanban-item" style="margin-top: 1%;">
+						<input style="margin-left: 25%; border-radius: 15px;"  type="text" id="title" name="title" placeholder="Title">
+					</div>
+					<div class="kanban-item" style="margin-top: 1%;">
+						<input style="margin-left: 25%; border-radius: 15px;" type="text" id="author" name="author" placeholder="Author">
+					</div>
+					<div class="kanban-item" style="margin-top: 1%;">
+						<input style="margin-left: 25%; border-radius: 15px;" type="date" id="date" name="date">
+					</div>
+					<div class="kanban-item" style="margin-top: 1%;">
+						<input style="margin-left: 25%; border-radius: 15px"  type="text" id="tags" name="tags" placeholder="Tags">
+					</div>
+			</div>
+			<div class="kanban-add">
+				<button id="kanban-add-button", type="button", onclick="filter_posts()">Search</button>
+			</div>
+		</div>
+		<div class="kanban", id="kanban-forum">
+		<div class="kanban-title"><h1><b>Forum</b></h1></div>
+		<div class="kanban-list" id="kanban-forumpost"></div>
+		<div class="kanban-add">
+				<button id="kanban-add-button", type="button", onclick="create_post()">Create Post</button>
+		</div>
+	</div>
+	</article>
+</main>
+
+<div class="post-overlay" id="post-overlay">
+	<div id="post-overlay-box">
+		<div id="post-overlay-box-loginline">
+			<label for="post-overlay-input">Post Title:</label>
+			<textarea type="text" id="post-overlay-title" name="post-overlay-input"></textarea>
+		</div>
+		<div id="post-overlay-box-loginline">
+			<label for="post-overlay-input">Post Subject/Tags:</label>
+			<textarea type="text" id="post-overlay-tag" name="post-overlay-input"></textarea>
+		</div>
+		<div id="post-overlay-box-paragraph">
+			<label for="post-overlay-input">Post Text:</label>
+			<div id="toolbar"></div>
+			<div id="editor"></div>
+		</div>
+		<button type="button" onclick="post_add_button()">Add Task</button>
+		<button type="button" onclick="post_cancel_button()">Cancel</button>
+	</div>
+</div>
+
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
+	var quill = new Quill('#editor' , {
+			placeholder: 'Your text here...',
+			theme: 'snow'
+	});
+</script>
+</body>
+</html>
