@@ -12,7 +12,7 @@ if(mysqli_connect_errno()){
 	exit();
 }
 
-$request = "SELECT * FROM forum";
+$request = "SELECT forum.postid, forum.title, forum.contents, users.user_email as author, forum.post_date FROM forum INNER JOIN users ON forum.author_id = users.user_id;";
 $result = $database->query($request);
 $dataArray = array();
 

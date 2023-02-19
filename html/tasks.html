@@ -24,8 +24,8 @@
   <div id="tabs-fill"></div>
   <div id="tabs-buttons">
     <div id="tabs-buttons-spacing">
-      <button class="tabs-button", id="tabs-button-personal"><b>Personal</b></button>
-      <button class="tabs-button", id="tabs-button-delegated"><b>Delegated</b></button>
+      <button class="tabs-button tabs-button-personal", id="tabs-button-personal", onclick="filterPersonal(this)"><b>Personal</b></button>
+      <button class="tabs-button tabs-button-delegated", id="tabs-button-delegated", onclick="filterDelegated(this)"><b>Delegated</b></button>
       <button class="tabs-button", id="tabs-button-invite", onclick="inviteOverlay()"><b>Invite</b></button>
     </div>
   </div>
@@ -71,7 +71,7 @@
     <div class="kanban", id="kanban-todo">
       <div class="kanban-title"><h1><b>To Do</b></h1></div>
       <div class="kanban-list", id="kanban-todolist", ondrop="drop(event)", ondragover="allowDrop(event)"></div>
-      <div class="kanban-add"><button class="kanban-button", type="button", onclick="taskOverlay()">Add+</button></div>
+      <div class="kanban-add"><button class="kanban-button", type="button", onclick="createTaskOverlay()">Add+</button></div>
     </div>
 
     <div class="kanban", id="kanban-doing">
@@ -87,18 +87,20 @@
 </main>
 
 <div class="overlay" id="taskpage-overlay">
+
   <div class="overlay-box", id="createTask-overlayBox">
     <div class="overlay-box-content", id="createTask-overlayBox-loginline">
       <label for="createTask-input">Task Description:</label>
       <textarea type="text", id="createTask-input", name="createTask-input"></textarea>
       <label for="createTask-deadline">Deadline:</label>
       <input type="date", id="createTask-deadline", name="createTask-deadline"></input>
-      <label for="createTask-hours" style="padding-bottom:1rem">Hours Needed: <span id="taskHours"></span></label>
+      <label for="createTask-hours" style="padding-bottom:1rem">Hours Needed: <input type="number" class="taskHours" id="taskCreateHours"></input></label>
       <input type="range", id="createTask-hours", name="createTask-hours", min="1", max="10", value="5", class="slider", oninput="updateTaskSlider(this.value)", onchange="updateTaskSlider(this.value)"></input>
     </div>
     <button type="button" onclick="addTask()">Add Task</button>
     <button type="button" onclick="removeOverlay()">Cancel</button>
   </div>
+
   <div class="overlay-box", id="invite-overlayBox">
     <div class="overlay-box-content">
       <label for="invite-overlayBox-content">Your Invite Code:</label>
@@ -109,6 +111,36 @@
     </div>
     <button type="button" onclick="removeOverlay()">Cancel</button>
   </div>
+
+  <div class="overlay-box", id="taskInfo-overlayBox">
+    <div class="task-details-box" id="emp-task-details-box">
+      <div class="details-content" id="task-details-content">This is content! This is meant to be veryveryveryveryveryveryveryveryvery long.</div>
+      <div class="details-assigned" id="task-details-assigned">1 - e@x</div>
+      <div class="details-creator" id="task-details-creator">cr: 1 - e@x</div>
+      <div class="details-editor" id="task-details-editor">ed: 1 - e@x</div>
+      <div class="details-created" id="task-details-created">sd: 00/00/00</div>
+      <div class="details-deadline" id="task-details-deadline">ed: 00/00/00</div>
+      <div class="details-hours" id="task-details-hours">length: 5</div>
+      <div class="details-status" id="task-details-status">doing</div>
+      <div class="details-buttons" id="task-details-buttons">
+        <button id="details-edit" class="icon" onclick="editTaskOverlay()"><i class="fa-solid fa-pen-to-square"></i></button>
+        <button id="details-delete" class="icon" onclick="deleteTask()"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </div>
+    <button type="button" onclick="removeOverlay()">Cancel</button>
+  </div>
+
+  <div class="overlay-box", id="editTask-overlayBox">
+    <div class="overlay-box-content">
+      <label for="editTask-content">Task Description:</label>
+      <textarea type="text", id="editTask-content", name="editTask-content"></textarea>
+      <label for="editTask-deadline">Deadline:</label>
+      <input type="date", id="editTask-deadline", name="editTask-deadline"></input>
+      <label for="editTask-hours" style="padding-bottom:1rem">Hours Needed: <input type="number" class="taskHours" id="taskEditHours"></input></label>
+      <input type="range", id="editTask-hours", name="editTask-hours", min="1", max="10", value="5", class="slider", oninput="updateTaskSlider(this.value)", onchange="updateTaskSlider(this.value)"></input>
+    </div>
+    <button type="button" onclick="editTask()">Edit</button>
+    <button type="button" onclick="returnOverlayEdit()">Back</button>
 </div>
 </body>
 

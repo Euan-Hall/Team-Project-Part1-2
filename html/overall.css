@@ -277,6 +277,14 @@ article {
     padding-bottom: 1rem;
 }
 
+#kanban-add-button-forum {
+	height: 90%;
+	width: 90%;
+	margin: auto;
+	font-size: 2.1em;
+	padding: 0rem 0rem;
+}
+
 .kanban-button {
     width: 90%;
     margin: auto;
@@ -288,44 +296,59 @@ article {
     padding-bottom: 1rem;
 }
 
+.kanban-text {
+	grid-row: 1;
+	grid-column-start: 1;
+	grid-column-end: 2;
+	font-weight: bold;
+	font-size: 1.5em;
+}
+
 .kanban-item {
     background-color: var(--background-colour);
     border-radius: 10px;
     width: 90%;
+    height: 8rem;
     margin-left: auto;
     margin-right: auto;
-    height: 8rem;
-    display: flex;
     overflow-x: hidden;
-}
 
-.personal {
-    background-color: var(--background-colour);
-    border-bottom: 3px solid var(--background-colour-shadow);
-}
+    padding: calc(1rem/2) calc(1rem/2);
 
-.delegated {
-    background-color: var(--delegated-colour);
-    border-bottom: 3px solid var(--delegated-colour-shadow);
+    display: grid;
+    row-gap: calc(1rem/3);
+    grid-template-rows: 1fr 2rem;
+    grid-template-columns: 1fr;
 }
 
 .kanban-item-text {
-	padding: 1rem 1rem;
-    overflow-x: hidden;
-	overflow-wrap: break-word;
-    overflow-y: auto;
+    grid-row: 1;
+    grid-column-start: 1;
+    grid-column-end: 3;
+
+    background-color: white;
+    border-radius: 10px;
+    padding: calc(1rem/3) calc(1rem/3);
+    font-weight: bold;
 }
 
-.kanban-item-text > p {
-	color: black;
-    margin: auto;
+.kanban-item-deadline {
+    grid-row: 2;
+    grid-column: 1;
+    border-radius: 10px;
+    
+    padding: calc(1rem/3) calc(1rem/3);
+    align-self: center;
 }
 
-::-webkit-scrollbar {
-    display: none;
+.overdue {
+    background-color: #fc9494;
 }
 
 .kanban-item-buttons {
+    grid-row-start: 2;
+    grid-column: 2;
+
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
@@ -333,15 +356,28 @@ article {
     height: 100%;
     margin-right: 0.5rem;
     margin-left: auto;
-
 }
 
-.kanban-item-button {
-    height: 0.5rem;
-    width: 0.5rem;
-    align-self:center;
-    display: flex;
-    justify-content: center;
+.personal {
+    background-color: var(--background-colour);
+    border: 2px solid var(--background-colour);
+}
+
+.personal:hover {
+    border: 2px solid var(--background-colour-shadow);
+}
+
+.delegated {
+    background-color: var(--delegated-colour);
+    border: 2px solid var(--delegated-colour);
+}
+
+.delegated:hover {
+    border: 2px solid var(--delegated-colour-shadow);
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
 .kanban-date-posted {
@@ -472,6 +508,9 @@ input[type="checkbox"]:focus {
     background-color: white;
     flex-grow: 1;
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
 }
 
 #invite-overlayBox-generateButton {
@@ -497,7 +536,7 @@ input[type="checkbox"]:focus {
     border-radius: 10px;
 }
 
-#taskHours{
+.taskHours{
     float: right;
 }
 
@@ -811,25 +850,35 @@ input[type="checkbox"]:focus {
     width: 7rem;
 }
 
-#tabs-button-personal {
+.tabs-button-personal {
     background-color: white;
     color: #000000;
     border-bottom: 3px solid var(--background-colour-shadow);
     border-right: 3px solid var(--background-colour-shadow);
 }
 
-#tabs-button-personal:hover {
-    background-color: var(--background-colour-shadow)
+.tabs-button-personal:hover {
+    background-color: var(--background-colour-shadow);
+    color: #000000;
 }
 
-#tabs-button-delegated {
+.tabs-button-personal-active {
+    background-color: var(--background-colour-shadow);
+}
+
+.tabs-button-delegated {
     background-color: var(--delegated-colour);
     color: #000000;
     border-bottom: 3px solid var(--delegated-colour-shadow);
     border-right: 3px solid var(--delegated-colour-shadow);
 }
 
-#tabs-button-delegated:hover {
+.tabs-button-delegated:hover {
+    background-color: var(--delegated-colour-shadow);
+    color: #000000;
+}
+
+.tabs-button-delegated-active {
     background-color: var(--delegated-colour-shadow);
 }
 
@@ -1023,7 +1072,7 @@ input[type="checkbox"]:focus {
     width: 100%;
 }
 
-#manager-task-details-box {
+.task-details-box {
     padding: 1rem 1rem;
     background-color: var(--background-colour);
     border-radius: 10px;
@@ -1038,7 +1087,7 @@ input[type="checkbox"]:focus {
     gap: calc(1rem/3);
 }
 
-#manager-task-details-box > div {
+.task-details-box > div {
     padding: calc(1rem/3) calc(1rem/3);
     border-radius: 10px;
     opacity: 0;
@@ -1052,7 +1101,7 @@ input[type="checkbox"]:focus {
     padding-top: calc(1rem/3);
 }
 
-#details-content {
+.details-content {
     grid-column-start: 1;
     grid-column-end: 3;
     grid-row: 1;
@@ -1063,7 +1112,7 @@ input[type="checkbox"]:focus {
     background-color: white;
 }
 
-#details-assigned {
+.details-assigned {
     grid-row: 2;
     grid-column: 1;
     overflow: hidden;
@@ -1072,7 +1121,7 @@ input[type="checkbox"]:focus {
     background-color: white;
 }
 
-#details-status {
+.details-status {
     grid-row: 2;
     grid-column: 2;
     overflow: hidden;
@@ -1081,7 +1130,7 @@ input[type="checkbox"]:focus {
     background-color: white;
 }
 
-#details-created {
+.details-created {
     grid-row: 3;
     grid-column: 1;
     overflow: hidden;
@@ -1090,7 +1139,7 @@ input[type="checkbox"]:focus {
     background-color: white;
 }
 
-#details-deadline {
+.details-deadline {
     grid-row: 3;
     grid-column: 2;
     overflow: hidden;
@@ -1099,7 +1148,7 @@ input[type="checkbox"]:focus {
     background-color: white;
 }
 
-#details-creator {
+.details-creator {
     grid-row: 4;
     grid-column: 1;
     overflow: hidden;
@@ -1108,7 +1157,7 @@ input[type="checkbox"]:focus {
     background-color: white;
 }
 
-#details-editor {
+.details-editor {
     grid-row: 4;
     grid-column: 2;
     overflow: hidden;
@@ -1117,7 +1166,7 @@ input[type="checkbox"]:focus {
     background-color: white;
 }
 
-#details-hours {
+.details-hours {
     grid-column: 1;
     grid-row: 5;
     overflow: hidden;
@@ -1126,7 +1175,7 @@ input[type="checkbox"]:focus {
     background-color: white;
 }
 
-#details-buttons {
+.details-buttons {
     height: 100%;
     grid-column: 2;
     grid-row: 5;
@@ -1141,7 +1190,7 @@ input[type="checkbox"]:focus {
     background-color: var(--background-colour);
 }
 
-#details-buttons > .icon {
+.details-buttons > .icon {
     flex-basis: 50%;
     height: 100%;
 }

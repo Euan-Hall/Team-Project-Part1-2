@@ -67,16 +67,16 @@
               </div>
               <button id="manager-new-task-button" onclick="newTaskOverlay()">New+</button>
             </div>
-            <div id="manager-task-details-box">
-              <div id="details-content">This is content! This is meant to be veryveryveryveryveryveryveryveryvery long.</div>
-              <div id="details-assigned">1 - e@x</div>
-              <div id="details-creator">cr: 1 - e@x</div>
-              <div id="details-editor">ed: 1 - e@x</div>
-              <div id="details-created">sd: 00/00/00</div>
-              <div id="details-deadline">ed: 00/00/00</div>
-              <div id="details-hours">length: 5</div>
-              <div id="details-status">doing</div>
-              <div id="details-buttons">
+            <div class="task-details-box" id="manager-task-details-box">
+              <div class="details-content" id="man-details-content">This is content! This is meant to be veryveryveryveryveryveryveryveryvery long.</div>
+              <div class="details-assigned" id="man-details-assigned">1 - e@x</div>
+              <div class="details-creator" id="man-details-creator">cr: 1 - e@x</div>
+              <div class="details-editor" id="man-details-editor">ed: 1 - e@x</div>
+              <div class="details-created" id="man-details-created">sd: 00/00/00</div>
+              <div class="details-deadline" id="man-details-deadline">ed: 00/00/00</div>
+              <div class="details-hours" id="man-details-hours">length: 5</div>
+              <div class="details-status" id="man-details-status">doing</div>
+              <div class="details-buttons">
                 <button id="details-edit" class="icon" onclick="editTaskOverlay()"><i class="fa-solid fa-pen-to-square"></i></button>
                 <button id="details-delete" class="icon" onclick="deleteTask()"><i class="fa-solid fa-trash"></i></button>
               </div>
@@ -105,7 +105,7 @@
       <textarea type="text", id="manager-newTask-content", name="manager-newTask-content"></textarea>
       <label for="manager-newTask-deadline">Deadline:</label>
       <input type="date", id="manager-newTask-deadline", name="manager-newTask-deadline"></input>
-      <label for="manager-newTask-hours" style="padding-bottom:1rem">Hours Needed: <span id="taskNewHours"></span></label>
+      <label for="manager-newTask-hours" style="padding-bottom:1rem">Hours Needed: <input type="number" id="taskNewHours" class="taskHours"></input></label>
       <input type="range", id="manager-newTask-hours", name="manager-newTask-hours", min="1", max="10", value="5", class="slider", oninput="updateTaskSlider(this.value)", onchange="updateTaskSlider(this.value)"></input>
       <label for="manager-newTask-assign">Select Employee: (leave blank for none)</label>
       <select id = "manager-newTask-assign", name="manager-newTask-assign"></select>
@@ -114,16 +114,16 @@
     <button type="button" onclick="returnOverlayNew()">Back</button>
   </div>
 
-  <div class="overlay-box", id="managerEditTask-overlay-box">
+  <div class="overlay-box", id="EditTask-overlay-box">
     <div class="overlay-box-content">
-      <label for="manager-editTask-content">Task Description:</label>
-      <textarea type="text", id="manager-editTask-content", name="manager-editTask-content"></textarea>
-      <label for="manager-editTask-deadline">Deadline:</label>
-      <input type="date", id="manager-editTask-deadline", name="manager-editTask-deadline"></input>
-      <label for="manager-editTask-hours" style="padding-bottom:1rem">Hours Needed: <span id="taskEditHours"></span></label>
-      <input type="range", id="manager-editTask-hours", name="manager-editTask-hours", min="1", max="10", value="5", class="slider", oninput="updateTaskSlider(this.value)", onchange="updateTaskSlider(this.value)"></input>
-      <label for="manager-editTask-assign">Select Employee: (leave blank for none)</label>
-      <select id = "manager-editTask-assign", name="manager-editTask-assign"></select>
+      <label for="editTask-content">Task Description:</label>
+      <textarea type="text", id="editTask-content", name="editTask-content"></textarea>
+      <label for="editTask-deadline">Deadline:</label>
+      <input type="date", id="editTask-deadline", name="editTask-deadline"></input>
+      <label for="editTask-hours" style="padding-bottom:1rem">Hours Needed: <input type="number" id="taskEditHours" class="taskHours"></input></label>
+      <input type="range", id="editTask-hours", name="editTask-hours", min="1", max="10", value="5", class="slider", oninput="updateTaskSlider(this.value)", onchange="updateTaskSlider(this.value)"></input>
+      <label for="editTask-assign">Select Employee: (leave blank for none)</label>
+      <select id = "editTask-assign", name="editTask-assign"></select>
     </div>
     <button type="button" onclick="editTaskOnProject()">Edit</button>
     <button type="button" onclick="returnOverlayEdit()">Back</button>

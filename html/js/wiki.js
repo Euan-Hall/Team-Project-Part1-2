@@ -1,16 +1,15 @@
 $(document).ready(function(){
-	loadTasks();
+	loadForum();
 });
 
-function loadTasks(){
+function loadForum(){
 	$.ajax({
 		url: "php/load_forum.php",
 		type: "GET",
 		success: function(responseData) {
 			responseData.forEach(element => {
 				post_create(element.postid, element.title, element.author, element.post_date);
-			});
-		},
+			});		},
 		dataType: 'json'
 	});
 }
@@ -26,27 +25,48 @@ function post_cancel_button() {
 	document.getElementById("post-overlay").style.display = "none";
 };
 
+function clear_posts() {
+	document.getElementById("create_post").remove();
+	document.getElementById("kanban-forumpost").remove();
+	let forumPost = document.createElement('div');
+	forumPost.setAttribute("class", "kanban-list");
+	forumPost.setAttribute("id", "kanban-forumpost");
+	document.getElementById("kanban-forum").appendChild(forumPost);
+
+	let button = document.createElement('div');
+	button.setAttribute("class", "kanban-add");
+	button.setAttribute("id", "create_post");
+	button.innerHTML = '<button id="kanban-add-button-forum", type="button", onclick="create_post()">Create Post</button>';
+	document.getElementById("kanban-forum").appendChild(button);
+}
+
+function reset_posts() {
+	clear_posts();
+	loadForum();
+}
 
 function filter_posts() {
 	// Get contents of each input
-	var title = document.getElementById('title');
-	var author = document.getElementById('author');
-	var date = document.getElementById('date');
-	var tag = document.getElementById('tags');
-
+	var title = document.getElementById('title').value;
+	var author = document.getElementById('author').value;
+	var date = document.getElementById('date').value;
+	var tag = document.getElementById('tags').value;
+	
+	console.log(title, author, date, tag);
 	$.ajax({
-		url: "php/get_filter_db.php",
+		url: "php/get_post_filter.php",
 		type: "GET",
 		data: {"title":title, "author":author, "date":date},
 		success : function(responseData) {
-			console.log(responseData);
-			// TODO CLEAR WIKI LIST, LIST RETURNED RESOPNSE.
-		}
+			console.log("Response: ", responseData);
+			clearPosts();
+			responseData.forEach(element => {
+				post_create(element.post_id, element.title, element.author, element.post_date);
+			});
+		},
+		dataType: 'json'
 	});
 }
-
-
-
 
 function add_href(postContents){
 	location.href="forum-page.html";
@@ -57,8 +77,8 @@ function post_create(postid, title, author, date){
 	let newPost = document.createElement('div');
 	newPost.setAttribute("class", "kanban-item");
 	newPost.setAttribute("id", "post-"+postid);
-	newPost.innerHTML = "<div class='kanban-item-text'>(<p><b>"+title+"</b></p></a><p>"+author+"</p></div></div<<p class='kanban-date-posted'>"+date+"</p>";
-	newPost.innerHTML += '<div class="kanban-item-buttons"><button id="button-"'+postid+' class=kanban-item-moveDeleteButton kanban-item-button icon" type="button" onclick"deleteForumPost(this)><i class ="fa-solid fa-trash"></i></button></div>"';
+	newPost.innerHTML = "<div class='kanban-item-text'><p><b>"+title+"</b></p></a><p>"+author+"</p></div></div<<p class='kanban-date-posted'>"+date+"</p>";
+	newPost.innerHTML += '<div class="kanban-item-buttons"><button id="button-"'+postid+' class=kanban-item-moveDeleteButton kanban-item-button icon" type="button" onclick"deleteForumPost(this)><i class ="fa-solid fa-trash"></i></button></div>';
 	document.getElementById('kanban-forumpost').appendChild(newPost);
 }
 

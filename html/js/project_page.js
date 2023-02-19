@@ -2,7 +2,7 @@ $(document).ready(function () {
     // Shows and hides all parts of the overlay where revelant
     $("#addEmp-overlay-box").hide();
     $("#managerNewTask-overlay-box").hide();
-    $("#managerEditTask-overlay-box").hide();
+    $("#EditTask-overlay-box").hide();
     $("#managerEditProject-overlay-box").hide();
     $("#newProject-overlay-box").hide();
     $("#project-overlay").hide();
@@ -143,7 +143,7 @@ function projectOverlay(e) {
     $("#projectInfo-overlay-box").show();
     $("#addEmp-overlay-box").hide();
     $("#managerNewTask-overlay-box").hide();
-    $("#managerEditTask-overlay-box").hide();
+    $("#EditTask-overlay-box").hide();
     $("#managerEditProject-overlay-box").hide();
     $("#newProject-overlay-box").hide();
     $("#manager-task-details-box > div").css({
@@ -383,14 +383,14 @@ function addEmpToProject() {
 
 // clears the task details, used when overlay opened
 function clearDetails() {
-    $("#details-content").html("");
-    $("#details-assigned").html("");
-    $("#details-status").html("");
-    $("#details-created").html("");
-    $("#details-deadline").html("");
-    $("#details-creator").html("");
-    $("#details-editor").html("");
-    $("#details-hours").html("");
+    $("#man-details-content").html("");
+    $("#man-details-assigned").html("");
+    $("#man-details-status").html("");
+    $("#man-details-created").html("");
+    $("#man-details-deadline").html("");
+    $("#man-details-creator").html("");
+    $("#man-details-editor").html("");
+    $("#man-details-hours").html("");
 }
 
 // shows details on a task when user clicks on it
@@ -405,14 +405,14 @@ function showDetails(e) {
         success: function(responseData) {
             let task = responseData[0]
             $("#manager-task-details-box > div").animate({opacity: 0}, {"duration":200, "queue": false, "complete": function() {
-                $("#details-content").html(id+" - "+task.task_content);
-                $("#details-assigned").html(task.assigned_email);
-                $("#details-status").html(task.task_status);
-                $("#details-created").html("Cr: "+task.task_creation_date);
-                $("#details-deadline").html("Dl: "+task.task_deadline_date);
-                $("#details-creator").html("Cr: "+task.creator_email);
-                $("#details-editor").html("Ed: "+task.editor_email);
-                $("#details-hours").html("Len (hours): "+task.task_hourneeded);
+                $("#man-details-content").html(id+" - "+task.task_content);
+                $("#man-details-assigned").html(task.assigned_email);
+                $("#man-details-status").html(task.task_status);
+                $("#man-details-created").html("Cr: "+task.task_creation_date);
+                $("#man-details-deadline").html("Dl: "+task.task_deadline_date);
+                $("#man-details-creator").html("Cr: "+task.creator_email);
+                $("#man-details-editor").html("Ed: "+task.editor_email);
+                $("#man-details-hours").html("Len (hours): "+task.task_hourneeded);
                 $("#manager-task-details-box > div").animate({opacity: 1}, {"duration":200, "queue": false});
             }});
         },
@@ -422,7 +422,7 @@ function showDetails(e) {
 
 // removes task from database
 function deleteTask() {
-    let ID = document.getElementById("details-content").textContent.split(" - ")[0];
+    let ID = document.getElementById("man-details-content").textContent.split(" - ")[0];
 
     $.ajax({
         url: "php/delete_task.php",
@@ -440,14 +440,14 @@ function deleteTask() {
     taskItems.forEach(t => {
         let tID = t.id.split("-")[1];
         if (ID == tID) {
-            t.style.display = "none";
+            t.remove();
         }
     });
 }
 
 // switches to "creare task" overlay
 function newTaskOverlay() {
-    $("#managerEditTask-overlay-box").hide();
+    $("#EditTask-overlay-box").hide();
     
     document.getElementById("manager-newTask-content").focus();
     let today = getDate();
@@ -498,7 +498,7 @@ function addTaskToProject() {
     }
 	let content = document.getElementById("manager-newTask-content").value;
     let deadline = document.getElementById("manager-newTask-deadline").value;
-    let hoursNeeded = document.getElementById("manager-newTask-hours").value;
+    let hoursNeeded = document.getElementById("taskNewHours").value;
 
     if (content!="") {
         
@@ -521,7 +521,7 @@ function addTaskToProject() {
 // switches overlay to edit task overlay
 function editTaskOverlay() {
     $("#managerNewTask-overlay-box").hide();
-    let taskID = document.getElementById("details-content").textContent.split(" - ")[0];
+    let taskID = document.getElementById("man-details-content").textContent.split(" - ")[0];
 
     // retrive task informations and sets current input values to current information
     $.ajax({
@@ -530,12 +530,12 @@ function editTaskOverlay() {
         data: {"task_id":taskID},
         success: function(responseData) {
             let task = responseData[0]
-            $("#manager-editTask-content").val(task.task_content);
+            $("#editTask-content").val(task.task_content);
             let today = getDate();
-            document.getElementById("manager-editTask-deadline").setAttribute("min", today);
-            document.getElementById("manager-editTask-deadline").setAttribute("value", task.task_deadline_date);
-            document.getElementById("manager-editTask-hours").value = task.task_hourneeded;
-            updateTaskSlider(document.getElementById("manager-editTask-hours").value);
+            document.getElementById("editTask-deadline").setAttribute("min", today);
+            document.getElementById("editTask-deadline").setAttribute("value", task.task_deadline_date);
+            document.getElementById("editTask-hours").value = task.task_hourneeded;
+            updateTaskSlider(task.task_hourneeded);
         },
         dataType:"json"
     });
@@ -551,7 +551,7 @@ function editTaskOverlay() {
             responseData.forEach(element => {
                 selections += "<option value='"+element.user_id+"'>"+element.user_email+"</option>";
             });
-            $("#manager-editTask-assign").html(selections);
+            $("#editTask-assign").html(selections);
         },
         dataType:"json",
         error: function(XMLHttpRequest, textStatus, errorThrown) { 
@@ -561,13 +561,13 @@ function editTaskOverlay() {
 
     //fades out project info overlay, fades in edit task overlay
     $("#projectInfo-overlay-box").fadeOut("fast", function() {
-        $("#managerEditTask-overlay-box").fadeIn("fast");
+        $("#EditTask-overlay-box").fadeIn("fast");
     });
 }
 
 // returns edit task overlay to project info overlay
 function returnOverlayEdit() {
-    $("#managerEditTask-overlay-box").fadeOut("fast", function() {
+    $("#EditTask-overlay-box").fadeOut("fast", function() {
         $("#projectInfo-overlay-box").fadeIn("fast");
     });
 }
@@ -575,15 +575,15 @@ function returnOverlayEdit() {
 // retrieves inputs then updates database
 function editTaskOnProject() {
     let userID = getCookie("makeItAll_id");
-    let taskID = document.getElementById("details-content").textContent.split(" - ")[0];
-    let assignedID = document.getElementById("manager-editTask-assign").value;
+    let taskID = document.getElementById("man-details-content").textContent.split(" - ")[0];
+    let assignedID = document.getElementById("editTask-assign").value;
     // if selection is empty, then set to null
     if (assignedID == "null") {
         assignedID = null;
     }
-	let content = document.getElementById("manager-editTask-content").value;
-    let deadline = document.getElementById("manager-editTask-deadline").value;
-    let hoursNeeded = document.getElementById("manager-editTask-hours").value;
+	let content = document.getElementById("editTask-content").value;
+    let deadline = document.getElementById("editTask-deadline").value;
+    let hoursNeeded = document.getElementById("taskEditHours").value;
 
     // updates database
     if (content!="") {
@@ -599,7 +599,6 @@ function editTaskOnProject() {
     } else {
         alert("Please Enter a Valid Input");
     }
-    $("#managerEditTask-overlay-box").hide();
 }
 
 // switches to edit project overlay
@@ -672,7 +671,7 @@ function newProjectOverlay() {
     $("#projectInfo-overlay-box").hide();
     $("#addEmp-overlay-box").hide();
     $("#managerNewTask-overlay-box").hide();
-    $("#managerEditTask-overlay-box").hide();
+    $("#EditTask-overlay-box").hide();
     $("#managerEditProject-overlay-box").hide();
     $("#newProject-overlay-box").show();
 
@@ -721,8 +720,8 @@ function createNewProject() {
 function updateTaskSlider(x) {
     let displayValNew = document.getElementById("taskNewHours");
     let displayValEdit = document.getElementById("taskEditHours");
-    displayValNew.textContent = x;
-    displayValEdit.textContent = x;
+    displayValNew.value = x;
+    displayValEdit.value = x;
 }
 
 // gets cookies by name

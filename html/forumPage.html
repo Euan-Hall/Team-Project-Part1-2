@@ -3,7 +3,7 @@
 <head>
 	<link rel="stylesheet" href="overall.css">
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-	<script src="js/overall.js"></script>
+	<script src="js/wiki.js"></script>
 </head>
 <body onload="load_data()">
 <nav>
@@ -13,14 +13,14 @@
 	<div id="nav-link-section" class="nav-section">
 		<a class="nav-link", href="tasks.html">Task List</a>
 		<a class="nav-link", href="projects.html">Project List</a>
-		<a class="nav-link", id="active">Forum</a>
+		<a class="nav-link", id="active">Knowledge Manager</a>
 		<a class="nav-link", id="manager-navbar" href="manager.php">Manager Dashboard</a>
 	</div>
 </nav>
 
 <main>
 	<div class="kanban", id="kanban-forum">
-	<div class="kanban-title" id="forum-title"><h1><b>Forum</b></h1></div>
+	<div class="kanban-title" id="forum-title"><h1><b>Posts</b></h1></div>
 	<div class="kanban-list" id="kanban-forumpost"></div>
 	<div class="kanban-add">
 			<button class="kanban-button", type="button", onclick="forum_break_button()">Add comment</button>

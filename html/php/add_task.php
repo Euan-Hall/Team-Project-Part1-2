@@ -1,9 +1,9 @@
 <?php
-$hostname = "localhost";
+$hostname = "sci-project.lboro.ac.uk";
 $username = "team14";
 $password = "W05q7hMywF";
 
-$database = mysqli_connect($hostname, $username, $password);
+$database = mysqli_connect($hostname, $username, $password, "team14");
 if (mysqli_connect_errno()) {
   exit();
 }
@@ -38,7 +38,7 @@ $request = "INSERT INTO tasks(task_id, task_content, task_project_id, task_assig
 if ($database->query($request) === TRUE) {
     echo "Success";
   } else {
-    echo "Error updating record: " . $request;
+    echo "Error updating record: " . $database->error;
   }
 
 mysqli_close($database);

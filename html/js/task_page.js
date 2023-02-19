@@ -4,7 +4,13 @@ $(document).ready(function () {
 });
 
 // shows task overlay
-function taskOverlay() {
+function createTaskOverlay() {
+    $("#taskpage-overlay").fadeIn();
+    $("#createTask-overlayBox").show();
+    $("#taskInfo-overlayBox").hide();
+    $("#invite-overlayBox").hide();
+    $("#editTask-overlayBox").hide();
+
     document.getElementById("createTask-input").focus();
     let today = getDate();
     document.getElementById("createTask-deadline").setAttribute("min", today);
@@ -13,6 +19,7 @@ function taskOverlay() {
     updateTaskSlider(document.getElementById("createTask-hours").value);
     $("#taskpage-overlay").fadeIn();
     $("#createTask-overlayBox").show();
+    $("#taskInfo-overlayBox").hide();
     $("#invite-overlayBox").hide();
 }
 
@@ -21,7 +28,7 @@ function addTask() {
     let id = getCookie("makeItAll_id");
 	let content = document.getElementById("createTask-input").value;
     let deadline = document.getElementById("createTask-deadline").value;
-    let hoursNeeded = document.getElementById("createTask-hours").value;
+    let hoursNeeded = document.getElementById("taskCreateHours").value;
 
     if (content!="") {
         $.ajax({
@@ -32,21 +39,21 @@ function addTask() {
                 console.log(responseData);
             }
         })
-        window.location.reload();
-        $("#taskpage-overlay").fadeOut();
+        loadTasks()
+        removeOverlay();
     } else {
         alert("Please Enter a Valid Input");
     }
     document.getElementById("createTask-input").value = "";
-
-    window.location.reload();
 };
 
 // shows invite code ovelay
 function inviteOverlay() {
     $("#taskpage-overlay").fadeIn();
     $("#createTask-overlayBox").hide();
+    $("#taskInfo-overlayBox").hide();
     $("#invite-overlayBox").show();
+    $("#editTask-overlayBox").hide();
 };
 
 // generates a invite code
@@ -68,9 +75,99 @@ function generateCode() {
         type: "POST",
         data: {"code":code.replaceAll(" ","")},
         success: function(responseData) {
-            console.log(responseData);
         }
     })
+}
+
+function taskInfoOverlay(t) {
+    $("#taskpage-overlay").fadeIn();
+    $("#editTask-overlayBox").hide();
+    $("#createTask-overlayBox").hide();
+    $("#taskInfo-overlayBox").show();
+    $("#invite-overlayBox").hide();
+
+    taskID = t.id.split("-")[1];
+    if (t.classList.contains("delegated")) {
+        $("#task-details-buttons").hide();
+    } else {
+        $("#task-details-buttons").show();
+    }
+
+    $.ajax({
+        url:"php/get_task_information.php",
+        type:"POST",
+        data: {"task_id":taskID},
+        success: function(responseData) {
+            let task = responseData[0]
+            $("#emp-task-details-box > div").animate({opacity: 0}, {"duration":200, "queue": false, "complete": function() {
+                $("#task-details-content").html(taskID+" - "+task.task_content);
+                $("#task-details-assigned").html(task.assigned_email);
+                $("#task-details-status").html(task.task_status);
+                $("#task-details-created").html("Cr: "+task.task_creation_date);
+                $("#task-details-deadline").html("Dl: "+task.task_deadline_date);
+                $("#task-details-creator").html("Cr: "+task.creator_email);
+                $("#task-details-editor").html("Ed: "+task.editor_email);
+                $("#task-details-hours").html("Len (hours): "+task.task_hourneeded);
+                $("#emp-task-details-box > div").animate({opacity: 1}, {"duration":200, "queue": false});
+            }});
+        },
+        dataType:"json"
+    });
+}
+
+function editTaskOverlay() {
+    let taskID = document.getElementById("task-details-content").textContent.split(" - ")[0];
+
+    // retrive task informations and sets current input values to current information
+    $.ajax({
+        url:"php/get_task_information.php",
+        type:"POST",
+        data: {"task_id":taskID},
+        success: function(responseData) {
+            let task = responseData[0]
+            $("#editTask-content").val(task.task_content);
+            let today = getDate();
+            document.getElementById("editTask-deadline").setAttribute("min", today);
+            document.getElementById("editTask-deadline").setAttribute("value", task.task_deadline_date);
+            document.getElementById("editTask-hours").value = task.task_hourneeded;
+            updateTaskSlider(task.task_hourneeded);
+        },
+        dataType:"json"
+    });
+
+    $("#taskInfo-overlayBox").fadeOut("fast", function() {
+        $("#editTask-overlayBox").fadeIn("fast");
+    });
+}
+
+// retrieves inputs then updates database
+function editTask() {
+    let userID = getCookie("makeItAll_id");
+    let taskID = document.getElementById("task-details-content").textContent.split(" - ")[0];
+	let content = document.getElementById("editTask-content").value;
+    let deadline = document.getElementById("editTask-deadline").value;
+    let hoursNeeded = document.getElementById("taskEditHours").value;
+
+    // updates database
+    if (content!="") {
+        $.ajax({
+            url: "php/update_task.php",
+            type: "POST",
+            data: {"task_id":taskID, "task_content":content, "task_assigned_user_id":userID, "task_editor_id":userID, "task_deadline":deadline, "task_hours":hoursNeeded},
+            success: function(responseData) {
+            }
+        })
+        loadTasks();
+        removeOverlay();
+    } else {
+        alert("Please Enter a Valid Input");
+    }
+}
+
+function returnOverlayEdit() {
+    $("#editTask-overlayBox").fadeOut("fast", function() {
+        $("#taskInfo-overlayBox").fadeIn("fast");
+    });
 }
 
 // removes the overlay
@@ -78,30 +175,49 @@ function removeOverlay() {
 	$("#taskpage-overlay").fadeOut();
 };
 
+// retrieves all tasks that a user has been assigned, and then creates website elements to represent them
+function loadTasks() {
+    Array.from(document.getElementsByClassName("kanban-item")).forEach(task => {
+        task.remove();
+    })
+    $.ajax({
+        url: "php/get_tasks.php",
+        type: "GET",
+        success: function(responseData) {
+            responseData.forEach(element => {
+                createTask(element.task_id, element.task_status, element.task_project_id, element.task_content, element.task_deadline_date, element.task_hourneeded);
+            });
+        },
+        dataType: "json",
+        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+            alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+        }
+    })
+}
+
 // creates a website elements to represent each task designated to a user
-function createTask(status, fromProject, text, allInfo) {
+function createTask(taskID, status, fromProject, text, deadline, hoursNeeded) {
     let newTask = document.createElement("div");
     newTask.setAttribute("class", "kanban-item");
     newTask.setAttribute("draggable","true");
     newTask.setAttribute("ondragstart","drag(event)");
-    let taskID = allInfo.split(",")[0];
     newTask.setAttribute("id", "task-"+taskID);
-    allInfo = allInfo.split(",");
-    allInfo.shift();
-    allInfo.shift();
-    var AssignedCreated = allInfo[0] + "  " + allInfo[1];
-    var LastEdits = allInfo[2];
-    var Created = allInfo[3];
-    var Deadline = allInfo[4];
-    var TimeNeed = allInfo[5];
-    text = text.toUpperCase();
+    newTask.setAttribute("onclick", "taskInfoOverlay(this)")
+
+    const today = new Date();
+    const deadlineDate = new Date(deadline+"T17:00:00");
+    let hoursLeft = (deadlineDate.getTime() - today.getTime()) / 1000 / 60 / 60;
+
+    if (hoursNeeded>hoursLeft) {
+        newTask.innerHTML = '<div class="kanban-item-text">'+text+'</div><div class="kanban-item-deadline overdue">Deadline: '+deadline+'</div>';
+    } else {
+        newTask.innerHTML = '<div class="kanban-item-text">'+text+'</div><div class="kanban-item-deadline">Deadline: '+deadline+'</div>';
+    }
 
     if (fromProject !== null) {
         newTask.classList.add("delegated");
-        newTask.innerHTML = "<div id=\"displayAll\", class=\"kanban-item-text\"><p><b>Task: </b><b>"+text+"</b><br><br><br><b>"+Deadline+"</b></p></div><br><div id=\"displayAll2\", class=\"kanban-item-buttons\"><p id=\"displayAll2\"><b>"+AssignedCreated+"</b><br><b>"+LastEdits+"</b><br><b>"+Created+"</b><br><b>"+Deadline+"</b><br><b>"+TimeNeed+"</b></p></div>";
     } else {
         newTask.classList.add("personal");
-        newTask.innerHTML = "<div id=\"displayAll\", class=\"kanban-item-text\"><p><b>Task: </b><b>"+text+"</b><br><br><br><b>"+Deadline+"</b></p></div><p><div id=\"displayAll2\", class=\"kanban-item-buttons\"><p id=\"displayAll3\"><b>"+AssignedCreated+"</b><br><b>"+LastEdits+"</b><b>"+Created+"</b><br><b>"+Deadline+"</b><br><b>"+TimeNeed+"</b></p></div><div class=\"kanban-item-buttons\"><button id='button-"+taskID+"', class=\"kanban-item-moveDeleteButton kanban-item-button icon\" ,type=\"button\" onclick=\"delete_todoItem_button(this)\"><i class=\"fa-solid fa-trash\"></i></button></div>";
     }
 
     let kanbanColumn;
@@ -117,21 +233,23 @@ function createTask(status, fromProject, text, allInfo) {
 }
 
 // removes a task from webpage and database
-function delete_todoItem_button(button) {
-    let taskID = button.id.split("-")[1];
+function deleteTask() {
+    let taskID = document.getElementById("task-details-content").textContent.split(" - ")[0];
+
     $.ajax({
         url: "php/delete_task.php",
         type: "POST",
         data: {"task_id":taskID},
         success: function (responseData) {
-            console.log(responseData);
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) { 
             alert("Status: " + textStatus); alert("Error: " + errorThrown); 
         }
     })
+
     document.getElementById("task-"+taskID).remove();
-};
+    removeOverlay();
+}
 
 //Counts how many tasks have delegated or are personal.
 function personal_or_delegated(element) {
@@ -201,7 +319,6 @@ function drop(ev) {
         type: "POST",
         data: {"task_id":data.split("-")[1], "task_status":new_status},
         success: function (responseData) {
-            console.log(responseData);
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) { 
             alert("Status: " + textStatus); alert("Error: " + errorThrown); 
@@ -211,26 +328,30 @@ function drop(ev) {
     updateCounters();
 }
 
-// retrieves all tasks that a user has been assigned, and then creates website elements to represent them
-function loadTasks() {
-    $.ajax({
-        url: "php/get_tasks.php",
-        type: "GET",
-        success: function(responseData) {
-            responseData.forEach(element => {
-                let contents = element.task_id.toString()+", "+element.task_content+", assigned: "+element.task_assigned_user_id.toString()+", creator: "+element.task_creator_id.toString()+", last edited by: "+element.task_editor_id.toString()+", created: "+element.task_creation_date+", deadline: "+element.task_deadline_date+", hours: "+element.task_hourneeded.toString();
-                if (element.task_project_id !== null) {
-                    contents = contents + ", project: " + element.task_project_id;
-                }
-                createTask(element.task_status, element.task_project_id, element.task_content, contents);
-            });
-        },
-        dataType: "json",
-        error: function(XMLHttpRequest, textStatus, errorThrown) { 
-            alert("Status: " + textStatus); alert("Error: " + errorThrown); 
-        }
-    })
+function filterPersonal(b) {
+    if (b.classList.contains("tabs-button-personal-active")) {
+        b.classList.remove("tabs-button-personal-active");
+        $(".kanban-item.delegated").show();
+    } else {
+        b.classList.add("tabs-button-personal-active");
+        $(".kanban-item.delegated").hide();
+        $(".kanban-item.personal").show();
+    }
+    document.getElementById("tabs-button-delegated").classList.remove("tabs-button-delegated-active");
 }
+
+function filterDelegated(b) {
+    if (b.classList.contains("tabs-button-delegated-active")) {
+        b.classList.remove("tabs-button-delegated-active");
+        $(".kanban-item.personal").show();
+    } else {
+        b.classList.add("tabs-button-delegated-active");
+        $(".kanban-item.personal").hide();
+        $(".kanban-item.delegated").show();
+    }
+    document.getElementById("tabs-button-personal").classList.remove("tabs-button-personal-active");
+}
+
 
 // gets the value of a cookie by name
 function getCookie(name) {
@@ -263,6 +384,8 @@ function getDate() {
 
 //updates number associated with slider
 function updateTaskSlider(x) {
-    let displayVal = document.getElementById("taskHours");
-    displayVal.textContent = x;
+    let displayVal = document.getElementById("taskCreateHours");
+    let displayEditVal = document.getElementById("taskEditHours");
+    displayVal.value = x;
+    displayEditVal.value = x;
 }
