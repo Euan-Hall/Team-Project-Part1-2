@@ -9,7 +9,9 @@ if (mysqli_connect_errno()) {
 }
 
 $project_id = $_POST["project_id"];
-$request = "SELECT * FROM tasks WHERE tasks.task_project_id = $project_id";
+$request = "SELECT tasks.*, task_subtask.parent_id
+FROM tasks LEFT JOIN task_subtask ON tasks.task_id = task_subtask.child_id
+WHERE tasks.task_project_id = $project_id;";
 $result = $database->query($request);
 $dataArray = array();
 

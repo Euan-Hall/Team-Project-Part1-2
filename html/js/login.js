@@ -17,7 +17,9 @@ $(document).ready(function () {
         if (element.is_manager == 'y') {
           managers.push(element.user_id);
         }
-      })
+      });
+      console.log(validLoginArray);
+      console.log(managers);
     },
     dataType: "json",
     error: function(XMLHttpRequest, textStatus, errorThrown) { 

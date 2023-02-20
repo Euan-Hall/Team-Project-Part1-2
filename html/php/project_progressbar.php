@@ -12,11 +12,17 @@ $project_id = $_POST["project_id"];
 $request = "SELECT (	
     SELECT COUNT(tasks.task_id)
     FROM projects2 LEFT JOIN tasks ON projects2.project_id = tasks.task_project_id
-    WHERE projects2.project_id = $project_id AND tasks.task_status = 'done'
+    WHERE projects2.project_id = $project_id AND tasks.task_status = 'done' AND tasks.task_id NOT IN 
+    (
+        SELECT task_subtask.parent_id FROM task_subtask
+    )
 ) / (
 	SELECT COUNT(tasks.task_id)
     FROM projects2 LEFT JOIN tasks ON projects2.project_id = tasks.task_project_id
-    WHERE projects2.project_id = $project_id     
+    WHERE projects2.project_id = $project_id AND tasks.task_id NOT IN
+    (
+        SELECT task_subtask.parent_id FROM task_subtask
+    )
 ) * 100 as ratio;";
 $result = $database->query($request);
 $dataArray = array();

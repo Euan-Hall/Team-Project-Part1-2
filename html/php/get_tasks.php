@@ -11,7 +11,10 @@ if (mysqli_connect_errno()) {
 if (isset($_COOKIE["makeItAll_id"])) {
     $emp_id = $_COOKIE["makeItAll_id"];
 }
-$request = "SELECT * FROM tasks WHERE tasks.task_assigned_user_id = " . $emp_id;
+$request = "SELECT * FROM tasks WHERE tasks.task_assigned_user_id = $emp_id and tasks.task_id NOT IN
+(
+    SELECT task_subtask.parent_id FROM task_subtask
+);";
 $result = $database->query($request);
 $dataArray = array();
 

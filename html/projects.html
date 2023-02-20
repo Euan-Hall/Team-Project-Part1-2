@@ -15,7 +15,7 @@
   <div id='nav-link-section' class='nav-section'>
     <a class='nav-link', href='tasks.html'>Task List</a>
     <a class='nav-link', id='active'>Project List</a>
-    <a class='nav-link', href='forum.html'>Forum</a>
+    <a class='nav-link', href='forum.html'>Knowledge Management</a>
     <a class='nav-link', id='manager-navbar' href='manager.php'>Manager Dashboard</a>
   </div>
 </nav>
@@ -124,6 +124,8 @@
       <input type="range", id="editTask-hours", name="editTask-hours", min="1", max="10", value="5", class="slider", oninput="updateTaskSlider(this.value)", onchange="updateTaskSlider(this.value)"></input>
       <label for="editTask-assign">Select Employee: (leave blank for none)</label>
       <select id = "editTask-assign", name="editTask-assign"></select>
+      <label for="editTask-parent">Select Parent Task: (leave blank for none)</label>
+      <select id = "editTask-parent", name="editTask-parent"></select>
     </div>
     <button type="button" onclick="editTaskOnProject()">Edit</button>
     <button type="button" onclick="returnOverlayEdit()">Back</button>

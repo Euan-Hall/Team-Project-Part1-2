@@ -277,14 +277,6 @@ article {
     padding-bottom: 1rem;
 }
 
-#kanban-add-button-forum {
-	height: 90%;
-	width: 90%;
-	margin: auto;
-	font-size: 2.1em;
-	padding: 0rem 0rem;
-}
-
 .kanban-button {
     width: 90%;
     margin: auto;
@@ -296,14 +288,6 @@ article {
     padding-bottom: 1rem;
 }
 
-.kanban-text {
-	grid-row: 1;
-	grid-column-start: 1;
-	grid-column-end: 2;
-	font-weight: bold;
-	font-size: 1.5em;
-}
-
 .kanban-item {
     background-color: var(--background-colour);
     border-radius: 10px;
@@ -312,13 +296,16 @@ article {
     margin-left: auto;
     margin-right: auto;
     overflow-x: hidden;
-
     padding: calc(1rem/2) calc(1rem/2);
 
     display: grid;
     row-gap: calc(1rem/3);
     grid-template-rows: 1fr 2rem;
     grid-template-columns: 1fr;
+}
+
+.moveEditButton {
+	margin-right: 2em;
 }
 
 .kanban-item-text {
@@ -1338,4 +1325,90 @@ input[type="checkbox"]:focus {
 #new-project-button {
     height: 100%;
     width: 100%;
+}
+
+.kanban-text {
+    grid-row: 1;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+		
+.kanban-button-forum {
+    height: 90%;
+    width: 90%;
+    margin: auto;
+    font-size: 2.1em;
+    padding: 0rem 0rem;
+}
+
+.kanban-button-forum-split {
+    height: 90%;
+    width: 45%;
+    margin: auto;
+    font-size: 2.1em;
+    padding: 0rem 0rem;
+}
+
+.kanban-item-filter {
+    background-color: var(--background-colour);
+    border-radius: 10px;
+    width: 90%;
+    height: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    overflow-x: hidden;
+    padding: calc(1rem/2) calc(1rem/2);
+
+    display: grid;
+    grid-template-rows: auto auto;
+}
+
+.kanban-item-forum {
+    background-color: var(--background-colour);
+    border-radius: 10px;
+    width: 90%;
+    height: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    overflow-x: hidden;
+    padding: calc(1rem/2) calc(1rem/2);
+
+    display: grid;
+    gap:calc(1rem/3);
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+}
+
+.kanban-item-forum-text {
+    grid-row: 1;
+    grid-column-start: 1;
+    grid-column-end: 3;
+
+    background-color: white;
+    border-radius: 10px;
+    padding: calc(1rem/3) calc(1rem/3);
+    font-weight: bold;
+}
+
+.kanban-item-forum-buttons {
+    grid-row: 2;
+    grid-column: 2;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    justify-content: center;
+    height: 100%;
+    margin-right: 0.5rem;
+    margin-left: auto;
+}
+
+.kanban-item-forum-date {
+    grid-row: 2;
+    grid-column: 1;
+
+    align-self: center;
 }

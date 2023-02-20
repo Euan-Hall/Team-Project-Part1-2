@@ -15,7 +15,7 @@
 <div id="nav-link-section" class="nav-section">
 	<a class="nav-link", href="tasks.html">Task List</a>
 	<a class="nav-link", href="projects.html">Project List</a>
-	<a class="nav-link", id="active">Forum</a>
+	<a class="nav-link", id="active">Knowledge Management</a>
 	<a class="nav-link", id="manager-navbar" href="manager.php">Manager Dashboard</a>
 </div>
 </nav>
@@ -25,33 +25,33 @@
 			<div class="kanban-title"><h1><b>Filter Articles</b></h1></div>
 			<div class="kanban-list">
 				<form action="php/forum_filter.php">
-					<div class="kanban-item" style="margin-top: 1%;">
-						<input class="kanban-input" style="border-radius: 15px;"  type="text" id="title" name="title" placeholder="Title">
-						<label for="title" class="kanban-text">Post title: </label>
+					<div class="kanban-item-filter" style="margin-top: 1%;">
+						<label for="title">Post title: </label>
+						<input type="text" id="title" name="title" placeholder="Title">
 					</div>
-					<div class="kanban-item" style="margin-top: 1%;">
-						<input class="kanban-item-input" style="border-radius: 15px;" type="text" id="author" name="author" placeholder="Author">
-						<label class="kanban-text" for="author">Post Author: </label>
+					<div class="kanban-item-filter" style="margin-top: 1%;">
+						<label for="author">Post Author: </label>
+						<input type="text" id="author" name="author" placeholder="Author">
 					</div>
-					<div class="kanban-item" style="margin-top: 1%;">
-						<input class="kanban-item-input" style="border-radius: 15px;" type="date" id="date" name="date">
-						<label class="kanban-text" for="date">Post date: </label>
+					<div class="kanban-item-filter" style="margin-top: 1%;">
+						<label for="date">Post date: </label>
+						<input type="date" id="date" name="date">
 					</div>
-					<div class="kanban-item" style="margin-top: 1%;">
-						<input class="Kanban-style-input" style="border-radius: 15px"  type="text" id="tags" name="tags" placeholder="Tags">
-						<label for="tags" class="kanban-text">Post tags: </label>
+					<div class="kanban-item-filter" style="margin-top: 1%;">
+						<label for="tags">Post tags: </label>
+						<input type="text" id="tags" name="tags" placeholder="Tags">
 					</div>
 			</div>
 			<div class="kanban-add">
-				<button id="kanban-add-button-forum", type="button", onclick="filter_posts()">Filter</button>
-				<button id="kanban-add-button-forum", style="margin-left: 0.1em;", type="button", onclick="reset_posts()">Reset Filter</button>
+				<button class="kanban-button-forum-split", type="button", onclick="filter_posts()">Filter</button>
+				<button class="kanban-button-forum-split", style="margin-left: 0.1em;", type="button", onclick="reset_posts()">Reset Filter</button>
 			</div>
 		</div>
 		<div class="kanban", id="kanban-forum">
 		<div class="kanban-title"><h1><b>Forum</b></h1></div>
 		<div class="kanban-list" id="kanban-forumpost"></div>
 		<div class="kanban-add" id="create_post">
-				<button id="kanban-add-button-forum", type="button", onclick="create_post()">Create Post</button>
+				<button id="create-post-button", class="kanban-button-forum", type="button", onclick="create_post()">Create Post</button>
 		</div>
 	</div>
 	</article>

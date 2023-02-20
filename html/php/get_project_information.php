@@ -13,14 +13,23 @@ $request = "SELECT projects2.project_name, users.user_email, (
 	SELECT (	
         SELECT COUNT(tasks.task_id)
         FROM projects2 LEFT JOIN tasks ON projects2.project_id = tasks.task_project_id
-        WHERE projects2.project_id = $project_id AND tasks.task_status = 'done'
+        WHERE projects2.project_id = $project_id AND tasks.task_status = 'done' AND tasks.task_id NOT IN 
+        (
+            SELECT task_subtask.parent_id FROM task_subtask
+        )
 	) / (
         SELECT COUNT(tasks.task_id)
         FROM projects2 LEFT JOIN tasks ON projects2.project_id = tasks.task_project_id
-        WHERE projects2.project_id = $project_id    
+        WHERE projects2.project_id = $project_id AND tasks.task_id NOT IN 
+        (
+            SELECT task_subtask.parent_id FROM task_subtask
+        )
 	) * 100
 ) as ratio, (
-    SELECT COUNT(tasks.task_id) FROM tasks WHERE tasks.task_project_id = $project_id
+    SELECT COUNT(tasks.task_id) FROM tasks WHERE tasks.task_project_id = $project_id AND tasks.task_id NOT IN 
+    (
+        SELECT task_subtask.parent_id FROM task_subtask
+    )
 ) as taskno, (
     SELECT COUNT(project_employee.user_id) FROM project_employee WHERE project_employee.project_id = $project_id
 ) as empno

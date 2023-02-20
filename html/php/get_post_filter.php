@@ -14,23 +14,24 @@ if (mysqli_connect_errno()) {
 
 $title = $_POST["title"];
 $author = $_POST["author"];
-$date = implode(' ', array_reverse(explode(' ', $_POST['date'])));
+$date_ = implode(' ', array_reverse(explode(' ', $_POST['date'])));
 
-
-$where = ($title!=""||$author!=""||$date!="")?"WHERE ":"";
-$title = ($title!="")?" title='$title '" : "";
-$author = ($author!="")?" author='$author '" : "";
-$date = ($date!="")?" date='$date '":"";
+$where = ($title!=""||$author!=""||$date_!="")?"WHERE ":"";
+$title = ($title!="")?" title='$title' " : "";
+$author = ($author!="")?" author='$author' " : "";
+$date_ = ($date_!="")?" date='$date_' ":"";
 
 // If there are 2 which aren't empty, there is one and. If all 3 aren't empty, then there is 2 ands.
 // Else, none.
-$and_1 = ($title!=""&&$date!=""||$title!=""&&$author!=""||$author!=""&&$date!="")?" AND ":"";
-$and_2 = ($title!=""&&date!=""&&$author!="")?" AND ":"";
+$and_1 = ($title!=""&&$date_!=""||$title!=""&&$author!=""||$author!=""&&$date_!="")?" AND ":"";
+$and_2 = ($title!=""&&$date_=""&&$author!="")?" AND ":"";
 
 
-$request = "SELECT * FROM forum " . $where . $title . $and_1 . $author . $and_2 . $date;
+$request = "SELECT * FROM forum " . $where . $title . $and_1 . $author . $and_2 . $date_;
 $result = $database->query($request);
 $dataArray = array();
+
+
 
 if (mysqli_num_row($result) > 0) {
 	//while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){

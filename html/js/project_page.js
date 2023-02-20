@@ -15,6 +15,8 @@ $(document).ready(function () {
     // adds an "add project" button if the user is a manager
     if (Boolean(getCookie("makeItAll_manager"))) {
         $("#article").html("<div class='sidebar'><button id='new-project-button' onclick='newProjectOverlay()'><i class='fa-solid fa-plus'></i></button></div><div class='kanban', id='kanban-project'><div class='kanban-title'><h1 id='title'><b>Your Projects.</b></h1></div><div id='kanban-project-list'></div></div>");
+    } else {
+        $("#edit-project-button").hide();
     }
 });
 
@@ -405,7 +407,13 @@ function showDetails(e) {
         success: function(responseData) {
             let task = responseData[0]
             $("#manager-task-details-box > div").animate({opacity: 0}, {"duration":200, "queue": false, "complete": function() {
-                $("#man-details-content").html(id+" - "+task.task_content);
+                if (task.child !== null) {
+                    $("#man-details-content").html(id+" - "+task.task_content+"<br>This is a subtask of the task with ID: "+task.child);
+                } else if (task.parent > 0) {
+                    $("#man-details-content").html(id+" - "+task.task_content+"<br>This task has "+task.parent+" subtasks.");
+                } else {
+                    $("#man-details-content").html(id+" - "+task.task_content);
+                }
                 $("#man-details-assigned").html(task.assigned_email);
                 $("#man-details-status").html(task.task_status);
                 $("#man-details-created").html("Cr: "+task.task_creation_date);
@@ -471,9 +479,8 @@ function newTaskOverlay() {
         dataType:"json",
         error: function(XMLHttpRequest, textStatus, errorThrown) { 
             alert("Status: " + textStatus); alert("Error: " + errorThrown); 
-        } 
+        }
     });
-
     // fades out projecy information overlay, and then fades in the correct one 
     $("#projectInfo-overlay-box").fadeOut("fast", function() {
         $("#managerNewTask-overlay-box").fadeIn("fast");
@@ -501,7 +508,6 @@ function addTaskToProject() {
     let hoursNeeded = document.getElementById("taskNewHours").value;
 
     if (content!="") {
-        
         $.ajax({
             url: "php/add_task.php",
             type: "POST",
@@ -536,27 +542,55 @@ function editTaskOverlay() {
             document.getElementById("editTask-deadline").setAttribute("value", task.task_deadline_date);
             document.getElementById("editTask-hours").value = task.task_hourneeded;
             updateTaskSlider(task.task_hourneeded);
+
+            // create a selection option for all emps on a project
+            let selections = "<option value='null'></option>";
+            let projectID = getCookie("project_id");
+            $.ajax({
+                url:"php/get_emps_on_project.php",
+                type:"POST",
+                data:{"project_id":projectID},
+                success: function(responseData) {
+                    responseData.forEach(element => {
+                        if (element.user_id == task.assigned_id) {
+                            selections += "<option selected='selected' value='"+element.user_id+"'>"+element.user_email+"</option>";
+                        } else {
+                            selections += "<option value='"+element.user_id+"'>"+element.user_email+"</option>";
+                        }
+                    });
+                    $("#editTask-assign").html(selections);
+                },
+                dataType:"json",
+                error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                    alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+                } 
+            });
+
+            // create a selection option for all tasks on a project
+            let selectionsParent = "<option value='null'></option>";
+            $.ajax({
+                url:"php/get_tasks_on_project.php",
+                type:"POST",
+                data:{"project_id":projectID},
+                success: function(responseData) {
+                    responseData.forEach(element => {
+                        if (element.task_id == task.child) {
+                            selectionsParent += "<option selected='selected' value='"+element.task_id+"'>"+element.task_id+"-"+element.task_content+"</option>";
+                        } else {
+                            if (!(element.task_id == task.task_id) && element.parent_id == null) {
+                                selectionsParent += "<option value='"+element.task_id+"'>"+element.task_id+"-"+element.task_content+"</option>";
+                            }
+                        }
+                    });
+                    $("#editTask-parent").html(selectionsParent);
+                },
+                dataType:"json",
+                error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                    alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+                } 
+            });
         },
         dataType:"json"
-    });
-
-    // create a selection option for all emps on a project
-    let selections = "<option value='null'></option>";
-    let projectID = getCookie("project_id");
-    $.ajax({
-        url:"php/get_emps_on_project.php",
-        type:"POST",
-        data:{"project_id":projectID},
-        success: function(responseData) {
-            responseData.forEach(element => {
-                selections += "<option value='"+element.user_id+"'>"+element.user_email+"</option>";
-            });
-            $("#editTask-assign").html(selections);
-        },
-        dataType:"json",
-        error: function(XMLHttpRequest, textStatus, errorThrown) { 
-            alert("Status: " + textStatus); alert("Error: " + errorThrown); 
-        } 
     });
 
     //fades out project info overlay, fades in edit task overlay
@@ -584,6 +618,10 @@ function editTaskOnProject() {
 	let content = document.getElementById("editTask-content").value;
     let deadline = document.getElementById("editTask-deadline").value;
     let hoursNeeded = document.getElementById("taskEditHours").value;
+    let parentID = document.getElementById("editTask-parent").value;
+    if (parentID == "null") {
+        parentID = null;
+    }
 
     // updates database
     if (content!="") {
@@ -595,6 +633,35 @@ function editTaskOnProject() {
                 console.log(responseData);
             }
         })
+
+        if (parentID != null) {
+            $.ajax({
+                url: "php/update_subtask.php",
+                type: "POST",
+                data: {"parent_id":parentID,"child_id":taskID},
+                success: function(responseData) {
+                    console.log(responseData);
+                }
+            })
+
+            $.ajax({
+                url: "php/add_subtask.php",
+                type: "POST",
+                data: {"parent_id":parentID,"child_id":taskID},
+                success: function(responseData) {
+                    console.log(responseData);
+                }
+            })
+        } else {
+            $.ajax({
+                url: "php/delete_subtask.php",
+                type: "POST",
+                data: {"parent_id":parentID,"child_id":taskID},
+                success: function(responseData) {
+                    console.log(responseData);
+                }
+            })
+        }
         removeOverlay();
     } else {
         alert("Please Enter a Valid Input");
